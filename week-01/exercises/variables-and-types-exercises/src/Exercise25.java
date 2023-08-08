@@ -7,4 +7,16 @@ public class Exercise25 {
     // 4. Print the result.
     // 5. Change variable values to change the sentence. Ask a friend for random values to increase the chances
     // of something hilarious or kinda naughty.
+
+    public static void main(String[] args) {
+
+        String noun = "duck";
+        String verb = "kicks";
+        String adjective = "fierce";
+        String adverb = "powerfully";
+
+        System.out.println("The " + adjective + " " + noun + " " + adverb + " " + verb + " the man with the silly hat.");
+
+    }
+
 }
