@@ -17,6 +17,10 @@ public class Exercise08 {
             opposite = "hot";
         } else if (word.equalsIgnoreCase("little")) {
             opposite = "big";
+        } else if (word.equalsIgnoreCase("wet")) {
+            opposite = "dry";
+        } else if (word.equalsIgnoreCase("hard")) {
+            opposite = "soft";
         }
 
         if (opposite == null) {
