@@ -8,15 +8,21 @@ public class Exercise08 {
     // Output: int
     // Description: calculates the sum of the parameter's elements and returns it.
 
+    static int sumArray(int[] array) {
+        int sum = 0;
+        for (int item : array) {
+            sum += item;
+        }
+        return sum;
+    }
+
     public static void main(String[] args) {
         int[] values = makeRandomArray();
         // 2. Uncomment the code below and make it work.
-        /*
         int sum = sumArray(values);
         System.out.println(sum);
         System.out.println(sumArray(makeRandomArray()));
         System.out.println(sumArray(makeRandomArray()));
-         */
     }
 
     public static int[] makeRandomArray() {

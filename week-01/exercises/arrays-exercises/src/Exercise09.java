@@ -5,7 +5,15 @@ public class Exercise09 {
 
         // A needle is randomly placed in a haystack array with a capacity of 100.
         // 1. Loop through the haystack and find the needle.
+        for (int i = 0; i < 100; i++) {
+            if (haystack[i] == null) {
+                continue;
+            }
+            System.out.println(i);
+            return;
+        }
         // 2. Print the index where you found it.
+        // The index prints inside of the loop
         // Hint: this is an exercise about the default value of strings.
     }
 

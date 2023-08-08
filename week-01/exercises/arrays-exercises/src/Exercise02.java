@@ -10,5 +10,13 @@ public class Exercise02 {
 
         // 1. Set your 10 favorite foods. (It's okay to replace squid ink.)
         // 2. Print your top, 6th, and last favorite from tenFavoriteFoods.
+        for (int i = 0; i < 10; i++) {
+            tenFavoriteFoods[i] = "Pizza";
+        }
+
+        System.out.println(tenFavoriteFoods[0]);
+        System.out.println(tenFavoriteFoods[5]);
+        System.out.println(tenFavoriteFoods[9]);
+
     }
 }
