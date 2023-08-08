@@ -11,5 +11,10 @@ public class Exercise02 {
         // 8
         // 10
         // 12
+
+        for (int i = 0; i < 6; i++) {
+            System.out.println((i + 1) * 2);
+        }
+
     }
 }

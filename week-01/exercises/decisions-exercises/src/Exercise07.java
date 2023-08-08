@@ -17,8 +17,8 @@ public class Exercise07 {
 
         // 1. Create if/else statements to enforce Abdi's homework rules.
         // 2. Print data-rich messages for each scenario.
-        Character S = new Character('S');
-        if (hoursOfHomework < 15 && dayOfWeek.charAt(0) == S) {
+
+        if (hoursOfHomework < 15 && dayOfWeek.charAt(0) == 'S') {
             System.out.println("I'm taking the day off!");
         } else {
             System.out.println("Time to do the homework...");
