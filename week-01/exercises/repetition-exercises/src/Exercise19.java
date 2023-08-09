@@ -24,5 +24,27 @@ public class Exercise19 {
         // "B", "igstar" -> "Bigstar"
         // "", "huh?" -> "huh?"
         // "wha?", "" -> "wha?"
+
+        // determine which string (first or second) is longer
+        // create an empty string to hold the new string
+        // make a loop based on the length of the longest string
+        // add each letter to the new string
+        // implement "stop" code for the shorter string, to stop it from adding nothing or throwing an error
+        // print the result
+
+        int maxLength = Math.max(first.length(), second.length());
+        String newString = "";
+
+        for (int i = 0; i < maxLength; i++) {
+            if (i < first.length()) {
+                newString += first.charAt(i);
+            }
+            if (i < second.length()) {
+                newString += second.charAt(i);
+            }
+        }
+
+        System.out.println(newString);
+
     }
 }

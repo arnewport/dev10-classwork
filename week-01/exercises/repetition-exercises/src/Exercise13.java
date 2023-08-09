@@ -13,6 +13,15 @@ public class Exercise13 {
         // You'll need a new string variable to store the result.
         // 2. Print the result.
 
+        String doublePhrase = "";
+
+        for (int i = 0; i < phrase.length(); i++) {
+            doublePhrase += phrase.charAt(i);
+            doublePhrase += phrase.charAt(i);
+        }
+
+        System.out.println(doublePhrase);
+
         // Examples
         // ===============
         // "dog" -> "ddoogg"

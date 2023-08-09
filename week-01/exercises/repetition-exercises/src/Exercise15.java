@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Exercise15 {
 
     public static void main(String[] args) {
@@ -17,5 +19,22 @@ public class Exercise15 {
         // ####
         // ####
         // ####
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of rows: ");
+        int numberOfRows = Integer.parseInt(scanner.nextLine());
+        System.out.println("Enter the number of columns: ");
+        int numberOfColumns = Integer.parseInt(scanner.nextLine());
+
+        String columns = "";
+
+        for (int i = 0; i < numberOfColumns; i++) {
+            columns += "#";
+        }
+
+        for (int i = 0; i < numberOfRows; i++) {
+            System.out.println(columns);
+        }
+
     }
 }
