@@ -22,6 +22,24 @@ public class Exercise14 {
             case 1:
                 System.out.println("I refuse to say \"a case of the Mondays\".");
                 break;
+            case 2:
+                System.out.println("I refuse to say \"a case of the Tuesdays\".");
+                break;
+            case 3:
+                System.out.println("I refuse to say \"a case of the Wednesdays\".");
+                break;
+            case 4:
+                System.out.println("I refuse to say \"a case of the Thursdays\".");
+                break;
+            case 5:
+                System.out.println("I refuse to say \"a case of the Fridays\".");
+                break;
+            case 6:
+                System.out.println("I refuse to say \"a case of the Saturdays\".");
+                break;
+            case 7:
+                System.out.println("I refuse to say \"a case of the Sundays\".");
+                break;
             default:
                 System.out.println("I don't recognize that day.");
                 break;

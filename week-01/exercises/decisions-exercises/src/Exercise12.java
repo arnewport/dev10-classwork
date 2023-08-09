@@ -1,3 +1,6 @@
+import org.w3c.dom.ls.LSOutput;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exercise12 {
@@ -18,5 +21,15 @@ public class Exercise12 {
 
         // 1. Add decisions statements to determine if first, second, and third are in order.
         // 2. Print messages for both ordered and unordered cases.
+
+        int[] initialArray = {first, second, third};
+        int[] sortedArray = {first, second, third};
+        Arrays.sort(sortedArray);
+        if (Arrays.equals(initialArray, sortedArray)) {
+            System.out.println("Numbers are ordered");
+        } else {
+            System.out.println("Numbers are unordered");
+        }
+
     }
 }

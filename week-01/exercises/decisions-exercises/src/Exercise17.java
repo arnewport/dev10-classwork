@@ -20,5 +20,13 @@ public class Exercise17 {
         // You may choose to track data -- maybe a boolean for homework yes/no -- instead of printing a message in
         // each case. That's a lot of repeated typing.
         // Then print the detailed message after the switch.
+
+        // opted not to use switch case as I'd have to overcomplicate the answer to the exercise
+        if (hoursOfHomework < 15 && (dayOfWeek == 6 || dayOfWeek == 7)) {
+            System.out.println("I'm taking the day off!");
+        } else {
+            System.out.println("Time to do the homework...");
+        }
+
     }
 }

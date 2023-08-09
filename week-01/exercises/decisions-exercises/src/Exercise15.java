@@ -12,5 +12,26 @@ public class Exercise15 {
         String opposite = null;
 
         // 1. Re-implement Exercise08 using a switch statement.
+
+        switch (word) {
+            case "high":
+                opposite = "low";
+            case "cold":
+                opposite = "hot";
+            case "little":
+                opposite = "big";
+            case "wet":
+                opposite = "dry";
+            case "hard":
+                opposite = "soft";
+        }
+
+        // not implementing a switch case here because Java doesn't like null switch cases
+        if (opposite == null) {
+            System.out.printf("I don't have an opposite for %s.%n", word);
+        } else {
+            System.out.printf("The opposite of %s is %s.%n", word, opposite);
+        }
+
     }
 }
