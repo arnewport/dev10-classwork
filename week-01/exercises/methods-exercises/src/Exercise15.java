@@ -1,4 +1,30 @@
+import java.util.Scanner;
+
 public class Exercise15 {
+
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void fizzBuzz() {
+        System.out.print("Enter an integer: ");
+        int number = Integer.parseInt(scanner.nextLine());
+        // no data validation for now
+        for (int i = 1; i < number + 1; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                System.out.println("Fizz Buzz");
+            } else if (i % 3 == 0) {
+                System.out.println("Fizz");
+            } else if (i % 5 == 0) {
+                System.out.println("Buzz");
+            } else {
+                System.out.println(i);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        fizzBuzz();
+    }
+
     /* FIZZ BUZZ
 
     Historically, the Fizz Buzz (https://en.wikipedia.org/wiki/Fizz_buzz) problem was used in programming interviews.

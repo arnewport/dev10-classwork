@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Exercise13 {
 
     // 1. Create a method.
@@ -7,6 +9,13 @@ public class Exercise13 {
     // Description: return true if the three parameters are in ascending order.
     // Otherwise, returns false.
     // (See Exercise07.)
+
+    public static boolean areInOrder(int first, int second, int third) {
+        int[] startingArray = {first, second, third};
+        int[] sortedArray = {first, second, third};
+        Arrays.sort(sortedArray);
+        return Arrays.equals(startingArray, sortedArray);
+    }
 
     // 2. Create a method.
     // Name: areContiguous
@@ -25,6 +34,10 @@ public class Exercise13 {
     // 7, 5, 6 -> false
     // 1, 0, 1 -> true
 
+    public static boolean areContiguous(int first, int second, int third) {
+        return ((first - 1 == second || first + 1 == second) && (second - 1 == third || second + 1 == third));
+    }
+
     // 3. Create a method.
     // Name: isAscendingContiguous
     // Inputs: int, int, int
@@ -34,11 +47,15 @@ public class Exercise13 {
     // Hint: call areInOrder and areContiguous. Neither method can guarantee the result alone, but together they solve
     // the problem.
 
+    public static boolean isAscendingContiguous(int first, int second, int third) {
+        return (areInOrder(first, second, third) && areContiguous(first, second, third));
+    }
+
     public static void main(String[] args) {
         // 4. Uncomment the code below and confirm it works.
-        // System.out.println(isAscendingContiguous(3, 4, 5)); // true
-        // System.out.println(isAscendingContiguous(-10, 4, 100)); // false
-        // System.out.println(isAscendingContiguous(2, 1, 2)); // false
-        // System.out.println(isAscendingContiguous(5, 4, 3)); // false, not ascending
+         System.out.println(isAscendingContiguous(3, 4, 5)); // true
+         System.out.println(isAscendingContiguous(-10, 4, 100)); // false
+         System.out.println(isAscendingContiguous(2, 1, 2)); // false
+         System.out.println(isAscendingContiguous(5, 4, 3)); // false, not ascending
     }
 }
