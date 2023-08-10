@@ -9,6 +9,12 @@ public class Exercise01 {
         // 1. Store the result in a new string variable.
         // 2. Print the result.
         // 3. Print the value returned directly without an intermediate variable.
+
+        String string = getRandomCompliment();
+        System.out.println(string);
+
+        System.out.println(getRandomCompliment());
+
     }
 
     public static String getRandomCompliment() {

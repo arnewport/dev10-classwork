@@ -6,12 +6,16 @@ public class Exercise04 {
         System.out.println(getFirstVowel("xxx")); // Expected:
 
         // 2. Call getFirstVowel at least one more time.
+        System.out.println(getFirstVowel("hello"));
     }
 
     // getFirstVowel returns the first vowel in a string as a char.
     // 1. Complete getFirstVowel.
     // If no vowel is found, return 0. (As a char, 0 represents the NULL value.)
     public static char getFirstVowel(String value) {
-        return 0;
+        if (value.isEmpty()) {
+            return 0;
+        }
+        return value.charAt(0);
     }
 }
