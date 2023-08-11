@@ -13,6 +13,18 @@ public class Exercise05 {
         // (Replace Frank Ocean.)
         // Create musicians from user input. (See Exercise04.)
 
+        for (int i = 0; i < musicians.length; i++) {
+            Musician object = new Musician();
+            System.out.print("Enter a musician's name: ");
+            object.setName(console.nextLine());
+            System.out.print("Enter the musician's rating: ");
+            object.setRating(Integer.parseInt(console.nextLine()));
+            musicians[i] = object;
+        }
+
         // 2. Use a second loop to print details about each musician.
+        for (Musician object: musicians) {
+            System.out.println(object.getName() + " " + object.getRating());
+        }
     }
 }
