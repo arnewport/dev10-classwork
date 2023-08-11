@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Arrays;
 
 public class Exercise16 {
 
@@ -11,6 +12,19 @@ public class Exercise16 {
         // Its elements are guaranteed to be sorted ascending.
         // 1. Create a new int[] with capacity for all elements from `one` and `two`.
         // 2. "Merge" elements from `one` and `two` into the new array so that its values are sorted.
+
+        int[] three = new int[one.length + two.length];
+
+        for (int i = 0; i < one.length; i++) {
+            three[i] = one[i];
+        }
+
+        for (int i = one.length; i < one.length + two.length; i++) {
+            three[i] = two[i - one.length];
+        }
+
+        Arrays.sort(three);
+        System.out.println(Arrays.toString(three));
 
          /* Pseudocode:
          Create an integer index for `one`, `two`, and the result array, all starting at 0.

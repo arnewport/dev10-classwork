@@ -10,7 +10,7 @@ public class Exercise09 {
                 continue;
             }
             System.out.println(i);
-            return;
+            break;
         }
         // 2. Print the index where you found it.
         // The index prints inside of the loop

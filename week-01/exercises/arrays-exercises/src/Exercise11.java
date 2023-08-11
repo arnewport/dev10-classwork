@@ -5,6 +5,25 @@ public class Exercise11 {
     public static void main(String[] args) {
         int[] values = makeRandomArray();
 
+        int count = 0;
+
+        for (int value : values) {
+            if (value > 0) {
+                count++;
+            }
+        }
+
+        int[] positives = new int[count];
+        int index = 0;
+
+        for (int value : values) {
+            if (value > 0) {
+                positives[index] = value;
+                System.out.println(positives[index]);
+                index++;
+            }
+        }
+
         // 1. Count the number of positive elements in `values`.
         // 2. Create a new int[] to hold the positive elements.
         // (We must count first to know the capacity to allocate.)

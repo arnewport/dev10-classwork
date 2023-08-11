@@ -5,6 +5,34 @@ public class Exercise12 {
     public static void main(String[] args) {
         int[] values = makeRandomArray();
 
+        int positiveCount = 0;
+        int negativeCount = 0;
+
+        for (int number : values) {
+            if (number > 0) {
+                positiveCount++;
+            } else {
+                negativeCount++;
+            }
+        }
+
+        int[] positiveNumbers = new int[positiveCount];
+        int[] negativeNumbers = new int[negativeCount];
+        int positiveIndex = 0;
+        int negativeIndex = 0;
+
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > 0) {
+                positiveNumbers[positiveIndex] = values[i];
+                System.out.println(positiveNumbers[positiveIndex]);
+                positiveIndex++;
+            } else {
+                negativeNumbers[negativeIndex] = values[i];
+                System.out.println(negativeNumbers[negativeIndex]);
+                negativeIndex++;
+            }
+        }
+
         // 1. Count the number of positive and non-positive elements in `values`.
         // 2. Create two new int[]s, one for positive elements and one for non-positive.
         // (We count first to determine the capacity to allocate.)

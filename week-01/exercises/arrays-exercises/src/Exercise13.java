@@ -1,9 +1,34 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Exercise13 {
 
     public static void main(String[] args) {
         String[] statesOrTowns = makeRandomStateAndTownArray();
+        String[] possibleTowns = {"Boring", "Loafers Glory", "Handsome Eddy", "Lonelyville"};
+        int townCount = 0;
+
+        for (String value : statesOrTowns) {
+            for (String town : possibleTowns) {
+                if (town.equals(value)) {
+                    townCount++;
+                }
+            }
+        }
+
+        String[] numberOfTowns = new String[townCount];
+        int numberOfTownsIndex = 0;
+
+        for (String value : statesOrTowns) {
+            for (String possibleTown : possibleTowns) {
+                if (possibleTown.equals(value)) {
+                    numberOfTowns[numberOfTownsIndex] = possibleTown;
+                    numberOfTownsIndex++;
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(numberOfTowns));
 
         // The statesOrTowns array contains either state abbreviations or town names. You can distinguish state
         // abbreviations by their length. They're always two characters.
