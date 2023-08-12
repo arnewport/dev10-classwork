@@ -50,25 +50,29 @@ public class Hotel {
 //    System.out.println("Sorry... " + input + " is not a valid menu option.");
 //    System.out.print("ERROR :(\n" + string + " is not a valid number.\n\nPlease enter a positive integer: ");
 //    System.out.print("ERROR :(\n" + integer + " is not positive.\n\nPlease enter a positive integer: ");
-    static boolean isValidNumber(String value) {
-        for (int i = 0; i < value.length(); i++) {
-            if (!Character.isDigit(value.charAt(i))) {
+    static boolean isValidNumber(String string) {
+        for (int i = 0; i < string.length(); i++) {
+            if (!Character.isDigit(string.charAt(i))) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean returnPositive(int integer) {
+    public static boolean isPositive(int integer) {
         return integer >= 1;
     }
 
-    public static boolean limitNameLength(String string) {
-        return string.length() < 101;
+    public static boolean isPositiveNumber(String string) {
+        return isValidNumber(string) && isPositive(Integer.parseInt(string));
     }
 
-    public static boolean withinRange(int number, int max) {
-        return 0 < number && number < max;
+    public static boolean limitNameLength(String string, int max) {
+        return string.length() <= max; // keep names under 100 characters
+    }
+
+    public static boolean withinRange(int number, int min, int max) {
+        return min <= number && number <= max;
     }
 
     // skipping for now
@@ -85,6 +89,40 @@ public class Hotel {
     // all true passes it on
     // this may be overly complicated, but it is a first thought for validation
 
+    // I don't need a validation function
+    // I just need to chain these tests together
+    // especially since I need the values transformed in between some tests
+
+    // THINK!
+
+    // You only need to validate four kinds of inputs
+    // the initial number of capsules - isValidNumber, isPositive, withinRange (min 1 max 100)
+    // the menu options - isValidNumber, is Positive, withinRange (min 1 max 4) BUT
+    // withinRange may not even be needed, because of the switch case
+    // picking a room number for checkIn, checkOut, viewGuests - isValidNumber, isPositive, withinRange (1 to capsules.length)
+    // entering a name for checkIn - limitNameLength, removeExcessWhitespace (optional at this point)
+
+    public static int validateNumber (String string, int max) {
+        if (!isPositiveNumber(string) || !withinRange(Integer.parseInt(string), 1, max)) {
+            System.out.println("INVALID, PROMPT");
+            return validateNumber(inputText(), max);
+        }
+        return Integer.parseInt(string);
+    }
+
+    public static String validateText (String string, int max) {
+        if (!limitNameLength(string, max)) {
+            System.out.println("INVALID, PROMPT");
+            return validateText(inputText(), max);
+        }
+        return string;
+    }
+
+    // make work later
+    public static String displayErrorMessage(String value, String message) {
+        return value + message;
+    }
+
     public static void printCapsules(int start, int end) {
         for (int i = start; i < end; i++) {
             String occupant = (capsules[i] == null) ? "[unoccupied]" : capsules[i];
@@ -96,14 +134,14 @@ public class Hotel {
 
     public static void startUp() {
         System.out.print(startUpString);
-        capsules = new String[returnPositiveInteger(inputText())];
+        capsules = new String[validateNumber(inputText(), 100)];
         System.out.println("\nThere are " + capsules.length + " unoccupied capsules ready to be booked.");
         displayMenu();
     }
 
     public static void displayMenu() {
         System.out.print(displayMenuString);
-        int input = returnPositiveInteger(inputText());
+        int input = validateNumber(inputText(), 4);
         while (true) {
             switch (input) {
                 case 1 -> {
@@ -124,20 +162,20 @@ public class Hotel {
                     System.out.println("Sorry... " + input + " is not a valid menu option.");
                 }
             }
-            input = returnPositiveInteger(inputText());
+            input = validateNumber(inputText(), 4);
         }
     }
 
     public static void checkIn() {
         System.out.println(checkInString);
         System.out.print("\nGuest Name: ");
-        String guestName = inputText();
+        String guestName = validateText(inputText(), 100);
         System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
-        int capsuleNumber = returnPositiveInteger(inputText());
+        int capsuleNumber = validateNumber(inputText(), capsules.length);
         while (capsules[capsuleNumber - 1] != null) {
             System.out.println("\nError :( Capsule #" + capsuleNumber + " is occupied.");
             System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
-            capsuleNumber = returnPositiveInteger(inputText());
+            capsuleNumber = validateNumber(inputText(), capsules.length);
         }
         capsules[capsuleNumber - 1] = guestName;
         System.out.println("\nSuccess :)\n" + guestName + " is booked in capsule #" + capsuleNumber + ".");
@@ -147,11 +185,11 @@ public class Hotel {
     public static void checkOut() {
         System.out.println(checkOutString);
         System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
-        int capsuleNumber = returnPositiveInteger(inputText());
+        int capsuleNumber = validateNumber(inputText(), capsules.length);
         while (capsules[capsuleNumber - 1] == null) {
             System.out.println("\nError :( Capsule #" + capsuleNumber + " is unoccupied.");
             System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
-            capsuleNumber = returnPositiveInteger(inputText());
+            capsuleNumber = validateNumber(inputText(), capsules.length);
         }
         System.out.println("\nSuccess :)\n" + capsules[capsuleNumber - 1]  + " checked out from capsule #" + capsuleNumber + ".");
         capsules[capsuleNumber - 1] = null;
@@ -167,7 +205,7 @@ public class Hotel {
             return;
         }
         System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
-        int capsuleNumber = returnPositiveInteger(inputText());
+        int capsuleNumber = validateNumber(inputText(), capsules.length);
         if (capsuleNumber <= 5) {
             printCapsules(0, 11);
         } else if (capsuleNumber >= capsules.length - 5) {
