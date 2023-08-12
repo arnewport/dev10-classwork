@@ -38,6 +38,14 @@ public class Hotel {
             View Guests
             ===========""";
 
+    static String exitProgramString = """
+
+            Exit
+            ====
+            Are you sure you want to exit?
+            All data will be lost.
+            Exit [y/n]:\s""";
+
     // figure out how to update the string as numberOfCapsules changes
 //    static String capsulesAvailableString = "There are " + capsules.length + " unoccupied capsules ready to be booked.";
 
@@ -154,15 +162,9 @@ public class Hotel {
                     viewGuests();
                 }
                 case 4 -> {
-                    System.exit(0);
-                }
-                default -> {
-                    // this needs to be moved elsewhere as right now,
-                    // there shouldn't be non-integers reaching this point
-                    System.out.println("Sorry... " + input + " is not a valid menu option.");
+                    exitProgram();
                 }
             }
-            input = validateNumber(inputText(), 4);
         }
     }
 
@@ -214,6 +216,21 @@ public class Hotel {
             printCapsules(capsuleNumber - 6, capsuleNumber + 5);
         }
         displayMenu();
+    }
+
+    public static void exitProgram() {
+        System.out.print(exitProgramString);
+        String input = validateText(inputText(), 1);
+        while (true) {
+            switch (input) {
+                case "y" -> {
+                    System.out.println("\nGoodbye!");
+                    System.exit(0);
+                }
+                case "n" -> displayMenu();
+                default -> exitProgram();
+            }
+        }
     }
 
     public static void main(String[] args) {
