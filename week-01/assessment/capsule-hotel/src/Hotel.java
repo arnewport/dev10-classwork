@@ -52,9 +52,9 @@ public class Hotel {
         return scanner.nextLine();
     }
 
-    static boolean isValidNumber(String string) {
-        for (int i = 0; i < string.length(); i++) {
-            if (!Character.isDigit(string.charAt(i))) {
+    static boolean isValidNumber(String value) {
+        for (int i = 0; i < value.length(); i++) {
+            if (!Character.isDigit(value.charAt(i))) {
                 return false;
             }
         }
@@ -65,32 +65,57 @@ public class Hotel {
         return integer >= 1;
     }
 
-    public static boolean isPositiveNumber(String string) {
-        return isValidNumber(string) && isPositive(Integer.parseInt(string));
+    public static boolean isPositiveNumber(String value) {
+        return isValidNumber(value) && isPositive(Integer.parseInt(value));
     }
 
-    public static boolean limitNameLength(String string, int max) {
-        return string.length() <= max; // keep names under 100 characters
+    public static boolean limitNameLength(String value, int max) {
+        return value.length() <= max; // keep names under 100 characters
     }
 
     public static boolean withinRange(int number, int min, int max) {
         return min <= number && number <= max;
     }
 
-    public static int validateNumber (String string, int max) {
-        if (!isPositiveNumber(string) || !withinRange(Integer.parseInt(string), 1, max)) {
-            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", string);
+    public static int validateNumber (String value, int max) {
+        if (!isPositiveNumber(value) || !withinRange(Integer.parseInt(value), 1, max)) {
+            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", value);
             return validateNumber(inputText(), max);
         }
-        return Integer.parseInt(string);
+        return Integer.parseInt(value);
     }
 
-    public static String validateText (String string, int max) {
-        if (!limitNameLength(string, max)) {
-            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", string);
+    public static String validateText (String value, int max) {
+        if (!limitNameLength(value, max)) {
+            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", value);
             return validateText(inputText(), max);
         }
-        return string;
+        return value;
+    }
+
+    public static void printCapsules(int start, int end) {
+        for (int i = start; i < end; i++) {
+            String occupant = (capsules[i] == null) ? "[unoccupied]" : capsules[i];
+            System.out.println((i + 1) + ": " + occupant);
+        }
+    }
+
+    public static boolean isHotelFull() {
+        for (String room : capsules) {
+            if (room == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isHotelEmpty() {
+        for (String room : capsules) {
+            if (room != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // if I wanted to have specific validation messages for each error
@@ -100,13 +125,6 @@ public class Hotel {
     // given this is not required by the assignment, I will likely not implement it due to time constraints
     public static void displayErrorMessage(String message, String value) {
         System.out.printf(message, value);
-    }
-
-    public static void printCapsules(int start, int end) {
-        for (int i = start; i < end; i++) {
-            String occupant = (capsules[i] == null) ? "[unoccupied]" : capsules[i];
-            System.out.println((i + 1) + ": " + occupant);
-        }
     }
 
     // PRIMARY METHODS
@@ -123,23 +141,20 @@ public class Hotel {
         int input = validateNumber(inputText(), 4);
         while (true) {
             switch (input) {
-                case 1 -> {
-                    checkIn();
-                }
-                case 2 -> {
-                    checkOut();
-                }
-                case 3 -> {
-                    viewGuests();
-                }
-                case 4 -> {
-                    exitProgram();
-                }
+                case 1 -> checkIn();
+                case 2 -> checkOut();
+                case 3 -> viewGuests();
+                case 4 -> exitProgram();
             }
         }
     }
 
     public static void checkIn() {
+        if (isHotelFull()) {
+            System.out.println("\nError :( The hotel is full.\n\nYou must check out a guest before you can check in guest.");
+            displayMenu();
+            return;
+        }
         System.out.println(checkInString);
         System.out.print("\nGuest Name: ");
         String guestName = validateText(inputText(), 100);
@@ -156,6 +171,11 @@ public class Hotel {
     }
 
     public static void checkOut() {
+        if (isHotelEmpty()) {
+            System.out.println("\nError :( The hotel is empty.\n\nYou must check in a guest before you can check out a guest.");
+            displayMenu();
+            return;
+        }
         System.out.println(checkOutString);
         System.out.print("\nCapsule #[1-" + capsules.length + "]: ");
         int capsuleNumber = validateNumber(inputText(), capsules.length);
