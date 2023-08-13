@@ -35,7 +35,6 @@ public class Exercise10 {
         for (Balloon value : balloons) {
             if (value.isExploded()) {
                 System.out.println(value.getColor());
-                System.out.println(value.getPsi());
             }
         }
     }

@@ -5,6 +5,7 @@ public class Balloon {
 
     public Balloon(String color) {
         this.color = color;
+        psi = 0.0;
     }
 
     public String getColor() {
