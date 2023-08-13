@@ -15,7 +15,7 @@ public class Exercise08 {
 
         Balloon b = new Balloon("green");
         for (int i = 0; i < 10; i++) {
-            Balloon.inflate();
+            b.inflate();
             System.out.println("psi:" + b.getPsi());
         }
 

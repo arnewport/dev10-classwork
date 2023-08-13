@@ -12,18 +12,11 @@ public class Balloon {
     }
 
     public double getPsi() {
-        return psi;
+        return psi > 16.0 ? Double.POSITIVE_INFINITY : psi;
     }
 
-    // 1. Create a new method in the Balloon class.
-    // Name: inflate
-    // Inputs: none
-    // Output: void
-    // Description: adds a random value to the psi field between 0.0 and 5.0
-    // this.psi = this.psi + Math.random() * 5.0;
+    public void inflate() { psi += Math.random() * 5.0; }
 
-    public static void inflate() {
-        psi += psi + Math.random() * 5.0;
-    }
+    public boolean isExploded() { return psi > 16.0; }
 
 }
