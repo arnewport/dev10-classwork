@@ -46,18 +46,12 @@ public class Hotel {
             All data will be lost.
             Exit [y/n]:\s""";
 
-    // figure out how to update the string as numberOfCapsules changes
-//    static String capsulesAvailableString = "There are " + capsules.length + " unoccupied capsules ready to be booked.";
-
     // HELPER METHODS
 
     public static String inputText() {
         return scanner.nextLine();
     }
 
-//    System.out.println("Sorry... " + input + " is not a valid menu option.");
-//    System.out.print("ERROR :(\n" + string + " is not a valid number.\n\nPlease enter a positive integer: ");
-//    System.out.print("ERROR :(\n" + integer + " is not positive.\n\nPlease enter a positive integer: ");
     static boolean isValidNumber(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!Character.isDigit(string.charAt(i))) {
@@ -83,36 +77,9 @@ public class Hotel {
         return min <= number && number <= max;
     }
 
-    // skipping for now
-    public static String removeExcessWhitespace(String string) {
-        return string;
-    }
-
-    // I need a validation function
-    // it accepts an undefined number of methods as arguments
-    // write every test so that "true" is a passing value
-    // place each method in an array
-    // the input is looped through each of the tests
-    // one false triggers an error message
-    // all true passes it on
-    // this may be overly complicated, but it is a first thought for validation
-
-    // I don't need a validation function
-    // I just need to chain these tests together
-    // especially since I need the values transformed in between some tests
-
-    // THINK!
-
-    // You only need to validate four kinds of inputs
-    // the initial number of capsules - isValidNumber, isPositive, withinRange (min 1 max 100)
-    // the menu options - isValidNumber, is Positive, withinRange (min 1 max 4) BUT
-    // withinRange may not even be needed, because of the switch case
-    // picking a room number for checkIn, checkOut, viewGuests - isValidNumber, isPositive, withinRange (1 to capsules.length)
-    // entering a name for checkIn - limitNameLength, removeExcessWhitespace (optional at this point)
-
     public static int validateNumber (String string, int max) {
         if (!isPositiveNumber(string) || !withinRange(Integer.parseInt(string), 1, max)) {
-            System.out.println("INVALID, PROMPT");
+            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", string);
             return validateNumber(inputText(), max);
         }
         return Integer.parseInt(string);
@@ -120,15 +87,19 @@ public class Hotel {
 
     public static String validateText (String string, int max) {
         if (!limitNameLength(string, max)) {
-            System.out.println("INVALID, PROMPT");
+            System.out.printf("\nSorry... %s is not a valid input.\n\nPlease enter a valid input: ", string);
             return validateText(inputText(), max);
         }
         return string;
     }
 
-    // make work later
-    public static String displayErrorMessage(String value, String message) {
-        return value + message;
+    // if I wanted to have specific validation messages for each error
+    // I would add "String error" as a parameter to both validation functions,
+    // would create specific error strings for each type of error,
+    // and would pass these error strings as arguments to every instance of the validation functions
+    // given this is not required by the assignment, I will likely not implement it due to time constraints
+    public static void displayErrorMessage(String message, String value) {
+        System.out.printf(message, value);
     }
 
     public static void printCapsules(int start, int end) {
@@ -142,7 +113,7 @@ public class Hotel {
 
     public static void startUp() {
         System.out.print(startUpString);
-        capsules = new String[validateNumber(inputText(), 100)];
+        capsules = new String[validateNumber(inputText(), 1000)];
         System.out.println("\nThere are " + capsules.length + " unoccupied capsules ready to be booked.");
         displayMenu();
     }
