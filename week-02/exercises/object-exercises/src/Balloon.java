@@ -1,11 +1,10 @@
 public class Balloon {
 
     private String color;
-    private static double psi;
+    private double psi;
 
     public Balloon(String color) {
         this.color = color;
-        psi = 0.0;
     }
 
     public String getColor() {
