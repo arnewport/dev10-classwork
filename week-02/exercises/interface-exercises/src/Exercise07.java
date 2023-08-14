@@ -41,23 +41,19 @@ public class Exercise07 {
         do {
             System.out.print("Select [1-4]:");
             input = console.nextLine();
-            switch(input) {
-                case 1:
-                    double balance = promptForBalance();
-                    String details = promptForDetails(askForDetails);
-                    return MoneyStorage new Wallet(balance, details);
-                case 2:
-                    double balance = promptForBalance();
-                    String details = promptForDetails(askForAccount);
-                    return MoneyStorage new Mortgage(balance, details);
-                case 3:
-                    double balance = promptForBalance();
-                    String details = promptForDetails(askForDetails);
-                    return MoneyStorage new Vault(balance, details);
-                case 4:
-                    double balance = promptForBalance();
-                    String details = promptForDetails(askForAccount);
-                    return MoneyStorage new BankAccount(balance, details);
+            switch (input) {
+                case "1" -> {
+                    return new Wallet(promptForBalance(), promptForDetails(askForDetails));
+                }
+                case "2" -> {
+                    return new Mortgage(promptForBalance(), promptForDetails(askForAccount));
+                }
+                case "3" -> {
+                    return new Vault(promptForBalance(), promptForDetails(askForDetails));
+                }
+                case "4" -> {
+                    return new BankAccount(promptForBalance(), promptForDetails(askForAccount));
+                }
             }
         } while (!(input.length() == 1 && input.charAt(0) >= '1' && input.charAt(0) <= '4'));
 
@@ -69,7 +65,6 @@ public class Exercise07 {
         // - description for a Wallet
         // - accountNumber for Mortgage and BankAccount
         // - for Vault?
-
         // 3. Return the Wallet, Mortgage, Vault, or Bank Account instead of null.
         return null;
     }
