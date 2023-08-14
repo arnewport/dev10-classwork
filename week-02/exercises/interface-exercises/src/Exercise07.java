@@ -41,6 +41,24 @@ public class Exercise07 {
         do {
             System.out.print("Select [1-4]:");
             input = console.nextLine();
+            switch(input) {
+                case 1:
+                    double balance = promptForBalance();
+                    String details = promptForDetails(askForDetails);
+                    return MoneyStorage new Wallet(balance, details);
+                case 2:
+                    double balance = promptForBalance();
+                    String details = promptForDetails(askForAccount);
+                    return MoneyStorage new Mortgage(balance, details);
+                case 3:
+                    double balance = promptForBalance();
+                    String details = promptForDetails(askForDetails);
+                    return MoneyStorage new Vault(balance, details);
+                case 4:
+                    double balance = promptForBalance();
+                    String details = promptForDetails(askForAccount);
+                    return MoneyStorage new BankAccount(balance, details);
+            }
         } while (!(input.length() == 1 && input.charAt(0) >= '1' && input.charAt(0) <= '4'));
 
         // 1. Add a switch statement to handle options 1 - 4.
@@ -55,6 +73,19 @@ public class Exercise07 {
         // 3. Return the Wallet, Mortgage, Vault, or Bank Account instead of null.
         return null;
     }
+
+    public static double promptForBalance() {
+        System.out.print("Please enter the starting balance: ");
+        return Integer.parseInt(console.nextLine());
+    }
+
+    public static String promptForDetails(String message) {
+        System.out.print(message);
+        return console.nextLine();
+    }
+
+    static String askForAccount = "Please enter the account number: ";
+    static String askForDetails = "Please enter the description: ";
 
     static void print(MoneyStorage storage) {
         System.out.println();
