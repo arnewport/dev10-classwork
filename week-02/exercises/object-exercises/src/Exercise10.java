@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Scanner;
 
 public class Exercise10 {
@@ -22,13 +20,10 @@ public class Exercise10 {
                 red.inflate();
                 blue.inflate();
                 yellow.inflate();
-                System.out.println(red.getPsi());
-                System.out.println(blue.getPsi());
-                System.out.println(yellow.getPsi());
             }
 
             // 3. When one or more balloons explode, stop the loop.
-        } while (!red.isExploded() || !blue.isExploded() || !yellow.isExploded());
+        } while (!red.isExploded() && !blue.isExploded() && !yellow.isExploded());
 
         // 4. Print the color of the winners (balloons that exploded).
         Balloon[] balloons = new Balloon[] {red, blue, yellow};
