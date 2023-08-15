@@ -12,5 +12,10 @@ public class Exercise12 {
         // 1. Shift all games two positions to the left. A game at index 0 "shifts" to the end of the list.
         // Example: A,B,C,D,E -> shifted two positions is -> C,D,E,A,B
         // 2. Print `games` and confirm the new order.
+
+        games.add(games.get(0));
+        games.remove(0);
+        System.out.println(games);
+
     }
 }
