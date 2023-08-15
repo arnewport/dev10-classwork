@@ -12,5 +12,7 @@ public class Exercise01 {
         // 1. Grab the 6th game from `games` (index 5).
         // 2. Print it to stdout. (Expected: "7 Wonders")
         System.out.println(games.get(5));
+
+        ArrayList<Treasure> = new ArrayList<Treasure>()
     }
 }
