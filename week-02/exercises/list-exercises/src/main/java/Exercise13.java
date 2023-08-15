@@ -20,6 +20,24 @@ public class Exercise13 {
         System.out.println("=".repeat(message.length()));
     }
 
+    private void createBoardGame() {
+        String name = console.nextLine();
+        int minPlayers = Integer.parseInt(console.nextLine());
+        int maxPlayers = Integer.parseInt(console.nextLine());
+        String category = console.nextLine();
+        games.add(new BoardGame(name, minPlayers, maxPlayers, category));
+    }
+
+    private void printAllBoardGames() {
+        for (BoardGame g : games) {
+            System.out.println(g);
+        }
+    }
+
+    private void removeBoardGame(int index) {
+        games.remove(index);
+    }
+
     private void run() {
 
         printHeader("Welcome to the Board Game Manager.");
@@ -39,18 +57,19 @@ public class Exercise13 {
                     // 1. Create a method that gathers user input via `console` to instantiate a BoardGame
                     // and then adds it to the `games` list.
                     // 2. Replace the line of code below with a call to the method.
-                    printHeader("Add a board game.");
+                    createBoardGame();
                     break;
                 case "2":
                     // 3. Create a method to display all board games in the `games` list.
                     // 4. Replace the line of code below with a call to the method.
-                    printHeader("Display all board games.");
+                    printAllBoardGames();
                     break;
                 case "3":
                     // 5. Stretch Goal: Create a method that allows the user to remove a board game from the
                     // `games` list with an index.
                     // 6. Replace the line of code below with a call to the method.
-                    printHeader("Remove a board game.");
+                    System.out.println("Add COMPLETE LATER");
+                    removeBoardGame(0);
                     break;
                 case "4":
                     printHeader("Goodbye.");
