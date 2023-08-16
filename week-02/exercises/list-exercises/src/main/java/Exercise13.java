@@ -68,7 +68,8 @@ public class Exercise13 {
                     // 5. Stretch Goal: Create a method that allows the user to remove a board game from the
                     // `games` list with an index.
                     // 6. Replace the line of code below with a call to the method.
-                    System.out.println("Add COMPLETE LATER");
+                    System.out.printf("\nSelect an index value to remove between 0 and %d: ", games.size());
+                    int index = Integer.parseInt(console.nextLine());
                     removeBoardGame(0);
                     break;
                 case "4":
