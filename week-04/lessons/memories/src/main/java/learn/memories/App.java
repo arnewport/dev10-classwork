@@ -10,7 +10,7 @@ public class App {
 
     public static void main(String[] args) {
         // "./data/memories.txt" is the path to our "production" data file.
-        MemoryFileRepository repository = new MemoryFileRepository("./data/memories.txt");
+        MemoryFileRepository repository = new MemoryFileRepository("learn/data/memories.txt");
         // repository satisfies the MemoryRepository dependency.
         MemoryService service = new MemoryService(repository);
 

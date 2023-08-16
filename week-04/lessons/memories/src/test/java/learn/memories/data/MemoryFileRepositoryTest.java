@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryFileRepositoryTest {
 
-    static final String SEED_FILE_PATH = "./data/memories-seed.txt";
-    static final String TEST_FILE_PATH = "./data/memories-test.txt";
+    static final String SEED_FILE_PATH = "learn/data/memories-seed.txt";
+    static final String TEST_FILE_PATH = "learn/data/memories-test.txt";
 
     MemoryFileRepository repository = new MemoryFileRepository(TEST_FILE_PATH);
 

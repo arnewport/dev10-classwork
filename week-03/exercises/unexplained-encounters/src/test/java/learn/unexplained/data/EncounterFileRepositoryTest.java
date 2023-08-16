@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EncounterFileRepositoryTest {
 
-    static final String TEST_PATH = "./data/encounters-test.csv";
+    static final String TEST_PATH = "learn/data/encounters-test.csv";
     final Encounter[] testEncounters = new Encounter[]{
             new Encounter(1, EncounterType.UFO, "2020-01-01", "short test #1", 1),
             new Encounter(2, EncounterType.CREATURE, "2020-02-01", "short test #2", 1),

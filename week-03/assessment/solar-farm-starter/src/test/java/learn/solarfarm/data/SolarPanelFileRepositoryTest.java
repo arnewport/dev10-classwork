@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SolarPanelFileRepositoryTest {
-    static final String SEED_FILE_PATH = "./data/solarfarm-seed.txt";
-    static final String TEST_FILE_PATH = "./data/solarfarm-test.txt";
+    static final String SEED_FILE_PATH = "learn/data/solarfarm-seed.txt";
+    static final String TEST_FILE_PATH = "learn/data/solarfarm-test.txt";
 
     SolarPanelFileRepository repository = new SolarPanelFileRepository(TEST_FILE_PATH);
 

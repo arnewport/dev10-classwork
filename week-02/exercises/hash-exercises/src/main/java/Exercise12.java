@@ -12,5 +12,12 @@ public class Exercise12 {
         // (Hint: You can add random numbers to the `numbers` HashSet until its size is 10.
         // That guarantees the numbers are unique.)
 
+        while (numbers.size() < 10) {
+            numbers.add(random.nextInt(101));
+        }
+
+        System.out.println(numbers);
+        System.out.println(numbers.size());
+
     }
 }

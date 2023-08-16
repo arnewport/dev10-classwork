@@ -14,5 +14,21 @@ public class Exercise08 {
         // (You may want to use your print all method from Exercise03.)
         // 4. How many 2006 vehicles are there? (Expected: 50)
 
+        HashMap<String, Vehicle> twoThousandSix = new HashMap<>();
+        int count = 0;
+
+        for (Vehicle v : vehicleMap.values()) {
+            if (v.getYear() == 2006) {
+                twoThousandSix.put(v.getVin(), v);
+            }
+        }
+
+        for (Vehicle v : twoThousandSix.values()) {
+            count++;
+            System.out.printf("%s %s %d %s%n", v.getMake(), v.getModel(), v.getYear(), v.getColor());
+        }
+
+        System.out.println(count);
+
     }
 }

@@ -8,6 +8,16 @@ public class Vehicle {
     private int year;
     private String color;
 
+    public Vehicle() {}
+
+    public Vehicle(String vin, String make, String model, int year, String color) {
+        this.vin = vin;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+    }
+
     public String getVin() {
         return vin;
     }
