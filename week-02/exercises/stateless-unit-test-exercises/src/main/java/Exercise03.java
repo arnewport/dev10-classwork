@@ -13,6 +13,23 @@ public class Exercise03 {
      * @return true if the value contains all 5 vowels, false if it doesn't
      */
     static boolean hasAllVowels(String value) {
-        return false;
+        int count = 0;
+        value.toLowerCase();
+        String[] vowels = new String[] {"a", "e", "i", "o", "u"};
+
+        for (String v : vowels) {
+            for (int i = 0; i < value.length(); i++) {
+                if (value.substring(i, i + 1).equals(v)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+
+        return count == 5;
+
     }
+
+
+
 }

@@ -16,12 +16,12 @@ class Exercise06Test {
     void shouldCapitalizeOneElement() {
         String[] values = {"lower"};
         String[] expected = {"Lower"};
-        String[] actual = instance.capitalizeAll(values);
+        String[] actual = Exercise06.capitalizeAll(values);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void shouldBeEmptyForEmptyArg() {
-        assertArrayEquals(new String[0], instance.capitalizeAll(new String[0]));
+        assertArrayEquals(new String[0], Exercise06.capitalizeAll(new String[0]));
     }
 }

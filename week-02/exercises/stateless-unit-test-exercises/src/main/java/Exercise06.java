@@ -17,7 +17,26 @@ public class Exercise06 {
      * @param values an array containing elements to capitalize.
      * @return a new String[] with each element capitalized.
      */
-    public String[] capitalizeAll(String[] values) {
-        return null;
+
+    public static String[] capitalizeAll(String[] values) {
+        if (values == null) {
+            return null;
+        }
+
+        String[] modifiedArray = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            String originalString = values[i];
+            if (originalString == null || originalString.isEmpty()) {
+                modifiedArray[i] = originalString;
+            } else {
+                char firstChar = Character.toUpperCase(originalString.charAt(0));
+                String modifiedString = firstChar + originalString.substring(1);
+                modifiedArray[i] = modifiedString;
+            }
+        }
+
+        return modifiedArray;
+
     }
+    
 }
