@@ -55,6 +55,7 @@ public class UserInterface {
     public static void displayRandomizer(Gomoku game) {
         System.out.println("\n(Randomizing)");
         System.out.println("\n" + game.getCurrent().getName() + " goes first.");
+
     }
 
     // create a board
@@ -156,7 +157,7 @@ public class UserInterface {
     public static void playAgain(Scanner console) {
         String input;
         do {
-            System.out.print("\nPlay Again? [y/n]:");
+            System.out.print("\nPlay Again? [y/n]: ");
             input = console.nextLine();
             if (input.equals("y")) {
                 playGame(console);
@@ -177,13 +178,5 @@ public class UserInterface {
         displayRandomizer(game);
         placeStone(game, console);
     }
-
-    public static void main(String[] args) {
-
-        playGame(console);
-
-    }
-
-
 
 }
