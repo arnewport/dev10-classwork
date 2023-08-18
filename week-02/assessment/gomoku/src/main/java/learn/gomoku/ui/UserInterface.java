@@ -1,6 +1,8 @@
 package learn.gomoku.ui;
 
 import learn.gomoku.game.Gomoku;
+import learn.gomoku.game.Result;
+import learn.gomoku.game.Stone;
 import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
@@ -40,6 +42,10 @@ public class UserInterface {
     }
 
     // determine who goes first
+
+    public static String getCurrentName(Gomoku game) {
+        return game.getCurrent().getName();
+    }
 
     public static void displayRandomizer(Gomoku game) {
         System.out.println("\n(Randomizing)");
@@ -87,6 +93,56 @@ public class UserInterface {
         return value;
     }
 
+    // place a stone
+
+    public static void placeStone(Gomoku game, Scanner console) {
+        Result result = new Result(null);
+        int row;
+        int column;
+        do {
+            if (result.getMessage() != null) {
+                System.out.println("\n" + result.getMessage());
+            }
+            System.out.println("\n" + game.getCurrent().getName() + "'s Turn");
+            System.out.print("Enter a row:  ");
+            row = Integer.parseInt(console.nextLine());
+            System.out.print("Enter a column:  ");
+            column = Integer.parseInt(console.nextLine());
+            Stone stone = new Stone(row, column, game.isBlacksTurn());
+            result = game.place(stone);
+        } while (!result.isSuccess());
+        if (!game.isOver()) {
+            placeStone(game, console);
+        } else {
+            System.out.println("\n" + result.getMessage());
+            System.out.println(game.getStones().toString());
+        }
+    }
+
+    public static void addStoneToBoard(Stone stone) {
+        if (!isValid(stone)) {
+            return;
+        }
+        if (!rows[stone.getRow() + 1][stone.getColumn() + 1].equals("_ ")) {
+            return;
+        }
+        if (true) {
+            System.out.println("test");
+        }
+    }
+
+    private boolean isValid(Stone stone) {
+        return stone != null
+                && stone.getRow() >= 0 && stone.getRow() < WIDTH
+                && stone.getColumn() >= 0 && stone.getColumn() < WIDTH;
+    }
+
+
+
+    // How the game adds stones to the board (which I have recreated in order to print the board)
+//    board[stone.getRow()][stone.getColumn()] = blacksTurn ? 'B' : 'W';
+//        stones.add(stone);
+
     public static void main(String[] args) {
 
 //        setUpBoard();
@@ -96,6 +152,7 @@ public class UserInterface {
 
         Gomoku game = new Gomoku(makePlayer(console), makePlayer(console));
         displayRandomizer(game);
+        placeStone(game, console);
 
     }
 
