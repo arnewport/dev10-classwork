@@ -6,14 +6,11 @@ import learn.gomoku.game.Stone;
 import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
-import learn.gomoku.utilities.ConsoleHelper;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class UserInterface {
-
-    public static Scanner console = new Scanner(System.in);
 
     // display title
 
@@ -47,10 +44,6 @@ public class UserInterface {
     }
 
     // determine who goes first
-
-    public static String getCurrentName(Gomoku game) {
-        return game.getCurrent().getName();
-    }
 
     public static void displayRandomizer(Gomoku game) {
         System.out.println("\n(Randomizing)");
@@ -102,7 +95,7 @@ public class UserInterface {
 
     public static void placeStone(Gomoku game, Scanner console) {
         Result result = new Result(null);
-        Stone stone = new Stone(0, 0, false);
+        Stone stone;
         int row;
         int column;
 
@@ -170,6 +163,8 @@ public class UserInterface {
         } while (!input.equals("y"));
 
     }
+
+    // start the game
 
     public static void playGame(Scanner console) {
         setUpBoard();
