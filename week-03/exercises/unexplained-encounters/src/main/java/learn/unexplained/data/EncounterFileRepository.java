@@ -32,12 +32,35 @@ public class EncounterFileRepository implements EncounterRepository {
                 }
             }
         } catch (FileNotFoundException ex) {
-
+            // if the file does not exist, one will be created
         } catch (IOException ex) {
             throw new DataAccessException(ex.getMessage(), ex);
         }
 
         return result;
+    }
+
+    public Encounter findById(int encounterId) throws DataAccessException {
+        List<Encounter> all = findAll();
+        for (Encounter encounter : all) {
+            if (encounter.getEncounterId() == encounterId) {
+                return encounter;
+            }
+        }
+        return null;
+    }
+
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException {
+        List<Encounter> all = findAll();
+        for (Encounter encounter : all) {
+            if (encounter.getType() == type) {
+                all.add(encounter);
+            }
+        }
+        if (!all.isEmpty()) {
+            return all;
+        }
+        return null;
     }
 
     @Override
@@ -47,6 +70,18 @@ public class EncounterFileRepository implements EncounterRepository {
         all.add(encounter);
         writeAll(all);
         return encounter;
+    }
+
+    public boolean update(Encounter encounter) throws DataAccessException {
+        List<Encounter> all = findAll();
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getEncounterId() == encounter.getEncounterId()) {
+                all.set(i, encounter);
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
