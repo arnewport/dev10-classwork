@@ -77,4 +77,39 @@ public class Controller {
         // TODO: complete update
     }
 
+//    private void updateMemory() throws DataAccessException {
+//        List<Memory> memories = getMemories("Update a Memory");
+//        Memory m = view.chooseMemory(memories);
+//        if (m == null) {
+//            view.displayMessage("Memory not found.");
+//            return;
+//        }
+//        m = view.editMemory(m);
+//        MemoryResult result = service.update(m);
+//        if (result.isSuccess()) {
+//            view.displayMessage("Memory " + result.getMemory().getId() + " updated.");
+//        } else {
+//            view.displayErrors(result.getErrorMessages());
+//        }
+//    }
+
+    private void removeSolarPanel() {
+
+//        if (m != null && service.deleteById(m.getId()).isSuccess()) {
+//            view.displayMessage("Memory " + m.getId() + " deleted.");
+//        } else {
+//            view.displayMessage("Memory not found.");
+//        }
+
+        // getSolarPanel
+//        displayHeader("Add a Panel");
+//        io.println("");
+//
+//        SolarPanel result = new SolarPanel();
+//        result.setSection(io.readRequiredString("Section"));
+//        result.setRow(io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN));
+//        result.setColumn(io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN));
+
+    }
+
 }

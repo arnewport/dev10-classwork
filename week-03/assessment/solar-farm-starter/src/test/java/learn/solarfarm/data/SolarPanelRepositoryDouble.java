@@ -37,11 +37,30 @@ public class SolarPanelRepositoryDouble implements SolarPanelRepository {
     }
 
     @Override
+    public SolarPanel findById(int panelId) throws DataAccessException {
+        for (SolarPanel panel : solarPanels) {
+            if (panel.getId() == panelId) {
+                return panel;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public SolarPanel create(SolarPanel solarPanel) throws DataAccessException {
         return solarPanel;
     }
 
     // TODO: add an update method (must match with interface)
 
+    @Override
+    public boolean update(SolarPanel panel) throws DataAccessException {
+        return findById(panel.getId()) != null;
+    }
+
     // TODO: add a delete method (must match with interface)
+    @Override
+    public boolean deleteById(int panelId) throws DataAccessException {
+        return findById(panelId) != null;
+    }
 }

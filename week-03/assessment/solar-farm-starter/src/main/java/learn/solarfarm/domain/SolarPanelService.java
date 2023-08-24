@@ -28,23 +28,22 @@ public class SolarPanelService {
         return repository.findByKey(section, row, column);
     }
 
-    public SolarPanelResult create(SolarPanel solarPanel) throws DataAccessException {
-        SolarPanelResult result = validate(solarPanel);
+    public SolarPanelResult create(SolarPanel panel) throws DataAccessException {
+        SolarPanelResult result = validate(panel);
 
-        if (solarPanel != null && solarPanel.getId() > 0) {
+        if (panel != null && panel.getId() > 0) {
             result.addErrorMessage("SolarPanel `id` should not be set.");
         }
 
         if (result.isSuccess()) {
-            solarPanel = repository.create(solarPanel);
-            result.setSolarPanel(solarPanel);
+            panel = repository.create(panel);
+            result.setSolarPanel(panel);
         }
 
         return result;
     }
 
     // TODO: add an update method
-
     public SolarPanelResult update(SolarPanel panel) throws DataAccessException {
         SolarPanelResult result = validate(panel);
 
@@ -64,7 +63,6 @@ public class SolarPanelService {
     }
 
     // TODO: add a delete method (possibly deleteById?)
-
     public SolarPanelResult deleteById(int panelId) throws DataAccessException {
         SolarPanelResult result = new SolarPanelResult();
         if (!repository.deleteById(panelId)) {
@@ -74,43 +72,43 @@ public class SolarPanelService {
         return result;
     }
 
-    private SolarPanelResult validate(SolarPanel solarPanel) throws DataAccessException {
+    private SolarPanelResult validate(SolarPanel panel) throws DataAccessException {
         SolarPanelResult result = new SolarPanelResult();
 
-        if (solarPanel == null) {
+        if (panel == null) {
             result.addErrorMessage("SolarPanel cannot be null.");
             return result;
         }
 
-        if (solarPanel.getSection() == null || solarPanel.getSection().isBlank()) {
+        if (panel.getSection() == null || panel.getSection().isBlank()) {
             result.addErrorMessage("SolarPanel `section` is required.");
         }
 
-        if (solarPanel.getRow() < 1 || solarPanel.getRow() >= MAX_ROW_COLUMN) {
+        if (panel.getRow() < 1 || panel.getRow() >= MAX_ROW_COLUMN) {
             result.addErrorMessage("SolarPanel `row` must be a positive number less than or equal to %s.", MAX_ROW_COLUMN);
         }
 
-        if (solarPanel.getColumn() < 1 || solarPanel.getColumn() >= MAX_ROW_COLUMN) {
+        if (panel.getColumn() < 1 || panel.getColumn() >= MAX_ROW_COLUMN) {
             result.addErrorMessage("SolarPanel `column` must be a positive number less than or equal to %s.", MAX_ROW_COLUMN);
         }
 
-        if (solarPanel.getYearInstalled() > getMaxInstallationYear()) {
+        if (panel.getYearInstalled() > getMaxInstallationYear()) {
             result.addErrorMessage("SolarPanel `yearInstalled` must be in the past.");
         }
 
-        if (solarPanel.getMaterial() == null) {
+        if (panel.getMaterial() == null) {
             result.addErrorMessage("SolarPanel `material` is required.");
         }
 
         // If everything is successful so far, then check if the combined values
         // of **Section**, **Row**, and **Column** are unique (i.e. the natural key).
         if (result.isSuccess()) {
-            SolarPanel existingSolarPanel = repository.findByKey(solarPanel.getSection(),
-                    solarPanel.getRow(), solarPanel.getColumn());
+            SolarPanel existingSolarPanel = repository.findByKey(panel.getSection(),
+                    panel.getRow(), panel.getColumn());
 
             // If an existing panel was found for the provided **Section**, **Row**, and **Column** values
             // add an error message if the id values don't match (i.e. they're not the same record).
-            if (existingSolarPanel != null && existingSolarPanel.getId() != solarPanel.getId()) {
+            if (existingSolarPanel != null && existingSolarPanel.getId() != panel.getId()) {
                 result.addErrorMessage("SolarPanel `section`, `row`, and `column` must be unique.");
             }
         }

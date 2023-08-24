@@ -37,13 +37,43 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
         return null;
     }
 
+    private List<SolarPanel> findAll() throws DataAccessException {
+        ArrayList<SolarPanel> result = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                SolarPanel sp = lineToSolarPanel(line);
+                if (sp != null) {
+                    result.add(sp);
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            // If the file doesn't exist, no big deal.
+            // We'll create it when we add a new solar panel.
+            // No file just means no solar panels yet.
+        } catch (IOException ex) {
+            throw new DataAccessException("Could not open the file path: " + filePath, ex);
+        }
+        return result;
+    }
+
     @Override
-    public SolarPanel create(SolarPanel solarPanel) throws DataAccessException {
+    public SolarPanel findById(int panelId) throws DataAccessException {
         List<SolarPanel> all = findAll();
-        solarPanel.setId(getNextId(all));
-        all.add(solarPanel);
+        for (SolarPanel panel : all) {
+            if (panel.getId() == panelId) {
+                return panel;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public SolarPanel create(SolarPanel panel) throws DataAccessException {
+        List<SolarPanel> all = findAll();
+        panel.setId(getNextId(all));
+        all.add(panel);
         writeToFile(all);
-        return solarPanel;
+        return panel;
     }
 
     // TODO: add an update method (must match with interface)
@@ -72,25 +102,6 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
             }
         }
         return false;
-    }
-
-    private List<SolarPanel> findAll() throws DataAccessException {
-        ArrayList<SolarPanel> result = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                SolarPanel sp = lineToSolarPanel(line);
-                if (sp != null) {
-                    result.add(sp);
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            // If the file doesn't exist, no big deal.
-            // We'll create it when we add a new solar panel.
-            // No file just means no solar panels yet.
-        } catch (IOException ex) {
-            throw new DataAccessException("Could not open the file path: " + filePath, ex);
-        }
-        return result;
     }
 
     private int getNextId(List<SolarPanel> solarPanels) {

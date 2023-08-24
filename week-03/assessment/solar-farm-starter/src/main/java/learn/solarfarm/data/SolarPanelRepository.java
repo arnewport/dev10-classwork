@@ -9,7 +9,9 @@ public interface SolarPanelRepository {
 
     SolarPanel findByKey(String section, int row, int column) throws DataAccessException;
 
-    SolarPanel create(SolarPanel solarPanel) throws DataAccessException;
+    SolarPanel findById(int panelId) throws DataAccessException;
+
+    SolarPanel create(SolarPanel panel) throws DataAccessException;
 
     // TODO: add an update method
     boolean update(SolarPanel panel) throws DataAccessException;
