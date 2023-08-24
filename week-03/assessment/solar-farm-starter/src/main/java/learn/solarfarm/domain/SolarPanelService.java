@@ -45,7 +45,34 @@ public class SolarPanelService {
 
     // TODO: add an update method
 
+    public SolarPanelResult update(SolarPanel panel) throws DataAccessException {
+        SolarPanelResult result = validate(panel);
+
+        if (panel.getId() <= 0) {
+            result.addErrorMessage("SolarPanel `id` is required.");
+        }
+
+        if (result.isSuccess()) {
+            if (repository.update(panel)) {
+                result.setSolarPanel(panel);
+            } else {
+                String message = String.format("SolarPanel id %s was not found.", panel.getId());
+                result.addErrorMessage(message);
+            }
+        }
+        return result;
+    }
+
     // TODO: add a delete method (possibly deleteById?)
+
+    public SolarPanelResult deleteById(int panelId) throws DataAccessException {
+        SolarPanelResult result = new SolarPanelResult();
+        if (!repository.deleteById(panelId)) {
+            String message = String.format("SolarPanel id %s was not found.", panelId);
+            result.addErrorMessage(message);
+        }
+        return result;
+    }
 
     private SolarPanelResult validate(SolarPanel solarPanel) throws DataAccessException {
         SolarPanelResult result = new SolarPanelResult();
