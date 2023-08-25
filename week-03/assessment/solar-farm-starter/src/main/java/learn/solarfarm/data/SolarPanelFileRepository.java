@@ -92,10 +92,10 @@ public class SolarPanelFileRepository implements SolarPanelRepository {
 
     // TODO: add a delete method (must match with interface)
     @Override
-    public boolean deleteById(int encounterId) throws DataAccessException {
+    public boolean deleteById(int panelId) throws DataAccessException {
         List<SolarPanel> all = findAll();
         for (int i = 0; i < all.size(); i++) {
-            if (all.get(i).getId() == encounterId) {
+            if (all.get(i).getId() == panelId) {
                 all.remove(i);
                 writeToFile(all);
                 return true;

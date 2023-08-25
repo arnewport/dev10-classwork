@@ -43,7 +43,7 @@ public class Controller {
                     break;
                 case 4:
                     // TODO: complete delete
-                    System.out.println("NOT IMPLEMENTED");
+                    removeSolarPanel();
                     break;
             }
         }
@@ -61,8 +61,9 @@ public class Controller {
     }
 
     private void addSolarPanel() throws DataAccessException {
-        SolarPanel solarPanel = view.addSolarPanel();
-        SolarPanelResult result = service.create(solarPanel);
+        view.displayHeader("Add a Panel");
+        SolarPanel panel = view.addSolarPanel();
+        SolarPanelResult result = service.create(panel);
         if (result.isSuccess()) {
             view.displayMessage("[Success]%nPanel %s added.", result.getSolarPanel().getKey());
         } else {
@@ -72,43 +73,47 @@ public class Controller {
 
     private void updateSolarPanel() throws DataAccessException {
         view.displayHeader("Update a Panel");
+        // the panel is selected
+        SolarPanel panel = view.enterSectionRowColumn();
+        panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
+        // attempt to update the panel with its own value to confirm its validity
+        SolarPanelResult result = service.update(panel);
+
+        // this if-else statement is worthless because a nonexistent entry throws NullPointerException
+        // this section could change significantly depending on how I handle the NullPointerException
+        if (result.isSuccess()) {
+            view.displayMessage("Editing %s", result.getSolarPanel().getKey());
+        } else {
+            view.displayErrors(result.getErrorMessages());
+            return;
+        }
+
+        panel = view.updateSolarPanel(panel);
+        service.update(panel);
+
+        if (result.isSuccess()) {
+            view.displayMessage("[Success]%nPanel %s updated.", panel.getKey());
+        } else {
+            view.displayErrors(result.getErrorMessages());
+        }
         // TODO: grab the section, row, and column from the view.
         // TODO: use the service to fetch a solar panel by its key (section, row, column).
         // TODO: complete update
     }
 
-//    private void updateMemory() throws DataAccessException {
-//        List<Memory> memories = getMemories("Update a Memory");
-//        Memory m = view.chooseMemory(memories);
-//        if (m == null) {
-//            view.displayMessage("Memory not found.");
-//            return;
-//        }
-//        m = view.editMemory(m);
-//        MemoryResult result = service.update(m);
-//        if (result.isSuccess()) {
-//            view.displayMessage("Memory " + result.getMemory().getId() + " updated.");
-//        } else {
-//            view.displayErrors(result.getErrorMessages());
-//        }
-//    }
+    private void removeSolarPanel() throws DataAccessException {
+        view.displayHeader("Remove a Panel");
+        // the panel is selected
+        SolarPanel panel = view.enterSectionRowColumn();
+        panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
+        SolarPanelResult result = service.deleteById(panel.getId());
 
-    private void removeSolarPanel() {
-
-//        if (m != null && service.deleteById(m.getId()).isSuccess()) {
-//            view.displayMessage("Memory " + m.getId() + " deleted.");
-//        } else {
-//            view.displayMessage("Memory not found.");
-//        }
-
-        // getSolarPanel
-//        displayHeader("Add a Panel");
-//        io.println("");
-//
-//        SolarPanel result = new SolarPanel();
-//        result.setSection(io.readRequiredString("Section"));
-//        result.setRow(io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN));
-//        result.setColumn(io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN));
+        // this if-else statement is worthless because a nonexistent entry throws NullPointerException
+        if (result.isSuccess()) {
+            view.displayMessage("[Success]%nPanel %s removed.", panel.getKey());
+        } else {
+            view.displayErrors(result.getErrorMessages());
+        }
 
     }
 

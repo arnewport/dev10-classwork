@@ -28,13 +28,13 @@ public class View {
         return io.readRequiredString("Section Name");
     }
 
-    public int getRow() {
-        return io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN);
-    }
-
-    public int getColumn() {
-        return io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN);
-    }
+//    public int getRow() {
+//        return io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN);
+//    }
+//
+//    public int getColumn() {
+//        return io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN);
+//    }
 
     public void displaySolarPanels(String section, List<SolarPanel> solarPanels) {
         io.println("");
@@ -45,7 +45,6 @@ public class View {
                     sp.getMaterial(), sp.isTracking() ? "yes" : "no");
         }
     }
-
 
     public void displayHeader(String message) {
         int length = message.length();
@@ -70,18 +69,37 @@ public class View {
         displayMessage(String.format(format, args));
     }
 
-    public SolarPanel addSolarPanel() {
-        displayHeader("Add a Panel");
+    public SolarPanel enterSectionRowColumn() {
         io.println("");
 
         SolarPanel result = new SolarPanel();
         result.setSection(io.readRequiredString("Section"));
         result.setRow(io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN));
         result.setColumn(io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN));
+
+        return result;
+    }
+
+    public SolarPanel addSolarPanel() {
+        SolarPanel result = enterSectionRowColumn();
         result.setMaterial(io.readEnum("Material", Material.class));
         result.setYearInstalled(io.readInt("Installation Year", SolarPanelService.getMaxInstallationYear()));
         result.setTracking(io.readBoolean("Tracked [y/n]"));
 
         return result;
     }
+
+    public SolarPanel updateSolarPanel(SolarPanel result) {
+        io.println("");
+
+        result.setSection(io.readRequiredString("Section"));
+        result.setRow(io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN));
+        result.setColumn(io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN));
+        result.setMaterial(io.readEnum(String.format("Material (%s)", result.getMaterial().getName()), Material.class));
+        result.setYearInstalled(io.readInt(String.format("Installation Year (%s)", result.getYearInstalled()), SolarPanelService.getMaxInstallationYear()));
+        result.setTracking(io.readBoolean(String.format("Tracked (%s) [y/n]", result.isTracking() ? "yes" : "no")));
+
+        return result;
+    }
+
 }
