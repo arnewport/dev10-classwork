@@ -92,7 +92,14 @@ public class View {
     public SolarPanel updateSolarPanel(SolarPanel result) {
         io.println("");
 
-        result.setSection(io.readRequiredString(String.format("Section (%s)", result.getSection())));
+        // do it here
+        // replace null / empty responses with the default here
+        // I'm not sure if this is the place to do it, but it is the easiest to implement
+
+        result.setSection(
+                io.readRequiredString(String.format("Section (%s)", result.getSection()))
+                // check if empty here
+        );
         result.setRow(io.readInt(String.format("Row (%s)", result.getRow()), 1, SolarPanelService.MAX_ROW_COLUMN));
         result.setColumn(io.readInt(String.format("Column (%s)", result.getColumn()), 1, SolarPanelService.MAX_ROW_COLUMN));
         result.setMaterial(io.readEnum(String.format("Material (%s)", result.getMaterial().getName()), Material.class));
