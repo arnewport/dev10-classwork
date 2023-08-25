@@ -92,19 +92,16 @@ public class View {
     public SolarPanel updateSolarPanel(SolarPanel result) {
         io.println("");
 
-        // do it here
-        // replace null / empty responses with the default here
-        // I'm not sure if this is the place to do it, but it is the easiest to implement
+        String value = io.readString(String.format("Section (%s)", result.getSection()));
+        // the ternary operator can be placed inside setSection()
+        value = (value.isEmpty()) ? result.getSection() : value;
+        result.setSection(value);
 
-        result.setSection(
-                io.readRequiredString(String.format("Section (%s)", result.getSection()))
-                // check if empty here
-        );
-        result.setRow(io.readInt(String.format("Row (%s)", result.getRow()), 1, SolarPanelService.MAX_ROW_COLUMN));
-        result.setColumn(io.readInt(String.format("Column (%s)", result.getColumn()), 1, SolarPanelService.MAX_ROW_COLUMN));
-        result.setMaterial(io.readEnum(String.format("Material (%s)", result.getMaterial().getName()), Material.class));
-        result.setYearInstalled(io.readInt(String.format("Installation Year (%s)", result.getYearInstalled()), SolarPanelService.getMaxInstallationYear()));
-        result.setTracking(io.readBoolean(String.format("Tracked (%s) [y/n]", result.isTracking() ? "yes" : "no")));
+        result.setRow(io.readIntWhileAllowingEmpty(String.format("Row (%s)", result.getRow()), 1, SolarPanelService.MAX_ROW_COLUMN, result.getRow()));
+        result.setColumn(io.readIntWhileAllowingEmpty(String.format("Column (%s)", result.getColumn()), 1, SolarPanelService.MAX_ROW_COLUMN, result.getColumn()));
+        result.setMaterial(io.readEnumWhileAllowingEmpty(String.format("Material (%s)", result.getMaterial().getName()), Material.class, result.getMaterial()));
+        result.setYearInstalled(io.readIntWhileAllowingEmpty(String.format("Installation Year (%s)", result.getYearInstalled()), SolarPanelService.getMaxInstallationYear(), result.getYearInstalled()));
+        result.setTracking(io.readBooleanWhileAllowingEmpty(String.format("Tracked (%s) [y/n]", result.isTracking() ? "yes" : "no"), result.isTracking()));
 
         return result;
     }

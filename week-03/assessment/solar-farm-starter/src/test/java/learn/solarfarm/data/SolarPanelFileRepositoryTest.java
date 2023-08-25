@@ -12,12 +12,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SolarPanelFileRepositoryTest {
-    static final String SEED_FILE_PATH = "learn/data/solarfarm-seed.txt";
-    static final String TEST_FILE_PATH = "learn/data/solarfarm-test.txt";
+    static final String SEED_FILE_PATH = "./data/solarfarm-seed.txt";
+    static final String TEST_FILE_PATH = "./data/solarfarm-test.txt";
 
     SolarPanelFileRepository repository = new SolarPanelFileRepository(TEST_FILE_PATH);
 
@@ -112,6 +111,17 @@ class SolarPanelFileRepositoryTest {
     @Test
     void update() throws DataAccessException {
         // TODO: complete
+
+        SolarPanel panel = repository.findById(1);
+        panel.setSection("East Hill");
+        assertTrue(repository.update(panel));
+
+        panel = repository.findById(1);
+        assertNotNull(panel);
+        assertEquals("East Hill", panel.getSection());
+
+        SolarPanel doesNotExist = new SolarPanel(6, "The Ridge", 1, 10, 2020, Material.A_SI, true);
+        assertFalse(repository.update(doesNotExist));
     }
 
     @Test
