@@ -92,9 +92,9 @@ public class View {
     public SolarPanel updateSolarPanel(SolarPanel result) {
         io.println("");
 
-        result.setSection(io.readRequiredString("Section"));
-        result.setRow(io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN));
-        result.setColumn(io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN));
+        result.setSection(io.readRequiredString(String.format("Section (%s)", result.getSection())));
+        result.setRow(io.readInt(String.format("Row (%s)", result.getRow()), 1, SolarPanelService.MAX_ROW_COLUMN));
+        result.setColumn(io.readInt(String.format("Column (%s)", result.getColumn()), 1, SolarPanelService.MAX_ROW_COLUMN));
         result.setMaterial(io.readEnum(String.format("Material (%s)", result.getMaterial().getName()), Material.class));
         result.setYearInstalled(io.readInt(String.format("Installation Year (%s)", result.getYearInstalled()), SolarPanelService.getMaxInstallationYear()));
         result.setTracking(io.readBoolean(String.format("Tracked (%s) [y/n]", result.isTracking() ? "yes" : "no")));

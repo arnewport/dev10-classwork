@@ -47,6 +47,10 @@ public class SolarPanelService {
     public SolarPanelResult update(SolarPanel panel) throws DataAccessException {
         SolarPanelResult result = validate(panel);
 
+//        if (panel == null) {
+//            result.addErrorMessage(String.format("There is no panel %s", panel.getKey()));
+//        }
+
         if (panel.getId() <= 0) {
             result.addErrorMessage("SolarPanel `id` is required.");
         }

@@ -73,20 +73,19 @@ public class Controller {
 
     private void updateSolarPanel() throws DataAccessException {
         view.displayHeader("Update a Panel");
-        // the panel is selected
         SolarPanel panel = view.enterSectionRowColumn();
+        String panelKey = panel.getKey();
         panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
-        // attempt to update the panel with its own value to confirm its validity
-        SolarPanelResult result = service.update(panel);
 
-        // this if-else statement is worthless because a nonexistent entry throws NullPointerException
-        // this section could change significantly depending on how I handle the NullPointerException
-        if (result.isSuccess()) {
-            view.displayMessage("Editing %s", result.getSolarPanel().getKey());
-        } else {
-            view.displayErrors(result.getErrorMessages());
+        // I don't think I should be doing validation in the controller
+        // but... it works... for now. I will do it better later
+        if (panel == null) {
+            view.displayMessage(String.format("[Err]%nThere is no panel %s", panelKey));
             return;
         }
+
+        SolarPanelResult result = service.update(panel);
+        view.displayMessage("Editing %s", result.getSolarPanel().getKey());
 
         panel = view.updateSolarPanel(panel);
         service.update(panel);
@@ -103,12 +102,18 @@ public class Controller {
 
     private void removeSolarPanel() throws DataAccessException {
         view.displayHeader("Remove a Panel");
-        // the panel is selected
         SolarPanel panel = view.enterSectionRowColumn();
+        String panelKey = panel.getKey();
         panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
-        SolarPanelResult result = service.deleteById(panel.getId());
 
-        // this if-else statement is worthless because a nonexistent entry throws NullPointerException
+        // I don't think I should be doing validation in the controller
+        // but... it works... for now. I will do it better later
+        if (panel == null) {
+            view.displayMessage(String.format("[Err]%nThere is no panel %s", panelKey));
+            return;
+        }
+
+        SolarPanelResult result = service.deleteById(panel.getId());
         if (result.isSuccess()) {
             view.displayMessage("[Success]%nPanel %s removed.", panel.getKey());
         } else {
