@@ -111,7 +111,6 @@ class SolarPanelFileRepositoryTest {
     @Test
     void update() throws DataAccessException {
         // TODO: complete
-
         SolarPanel panel = repository.findById(1);
         panel.setSection("East Hill");
         assertTrue(repository.update(panel));
@@ -127,5 +126,7 @@ class SolarPanelFileRepositoryTest {
     @Test
     void deleteById() throws DataAccessException {
         // TODO: complete
+        assertTrue(repository.deleteById(1));
+        assertFalse(repository.deleteById(1024));
     }
 }
