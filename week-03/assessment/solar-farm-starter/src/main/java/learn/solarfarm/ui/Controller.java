@@ -72,32 +72,27 @@ public class Controller {
     }
 
     private void updateSolarPanel() throws DataAccessException {
+        // TODO: grab the section, row, and column from the view.
+        // TODO: use the service to fetch a solar panel by its key (section, row, column).
+        // TODO: complete update
         view.displayHeader("Update a Panel");
         SolarPanel panel = view.enterSectionRowColumn();
         String panelKey = panel.getKey();
         panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
 
-        // I don't think I should be doing validation in the controller
-        // but... it works... for now. I will do it better later
         if (panel == null) {
-            view.displayMessage(String.format("[Err]%nThere is no panel %s", panelKey));
+            view.displayMessage("[Err]%nThere is no panel %s", panelKey);
             return;
         }
 
-        SolarPanelResult result = service.update(panel);
-        view.displayMessage("Editing %s", result.getSolarPanel().getKey());
-
+        view.displayMessage("Editing %s", panelKey);
         panel = view.updateSolarPanel(panel);
-        service.update(panel);
-
+        SolarPanelResult result = service.update(panel);
         if (result.isSuccess()) {
             view.displayMessage("[Success]%nPanel %s updated.", panel.getKey());
         } else {
             view.displayErrors(result.getErrorMessages());
         }
-        // TODO: grab the section, row, and column from the view.
-        // TODO: use the service to fetch a solar panel by its key (section, row, column).
-        // TODO: complete update
     }
 
     private void removeSolarPanel() throws DataAccessException {
@@ -106,8 +101,6 @@ public class Controller {
         String panelKey = panel.getKey();
         panel = service.findByKey(panel.getSection(), panel.getRow(), panel.getColumn());
 
-        // I don't think I should be doing validation in the controller
-        // but... it works... for now. I will do it better later
         if (panel == null) {
             view.displayMessage(String.format("[Err]%nThere is no panel %s", panelKey));
             return;
