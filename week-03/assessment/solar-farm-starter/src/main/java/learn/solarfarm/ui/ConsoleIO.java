@@ -147,8 +147,7 @@ public class ConsoleIO implements TextIO {
         String label = String.format("Select [1-%s]", enumConstants.length);
 
         // by default, if an incorrect material is passed and an empty value is entered for readInt,
-        // the first option will be selected
-        // unlikely edge case but more logic can fix it later
+        // the first option will be selected; unlikely edge case but more logic can fix it later
         int originalValueIndex = 1;
         for (int i = 0; i < enumConstants.length; i++) {
             if (enumConstants[i].equals(originalValue)) {

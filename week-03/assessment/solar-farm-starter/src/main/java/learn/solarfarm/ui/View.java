@@ -28,14 +28,6 @@ public class View {
         return io.readRequiredString("Section Name");
     }
 
-//    public int getRow() {
-//        return io.readInt("Row", 1, SolarPanelService.MAX_ROW_COLUMN);
-//    }
-//
-//    public int getColumn() {
-//        return io.readInt("Column", 1, SolarPanelService.MAX_ROW_COLUMN);
-//    }
-
     public void displaySolarPanels(String section, List<SolarPanel> solarPanels) {
         io.println("");
         io.printf("Panels in %s%n", section);
