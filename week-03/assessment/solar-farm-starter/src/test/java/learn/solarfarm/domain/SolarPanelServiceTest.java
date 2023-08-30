@@ -238,30 +238,53 @@ class SolarPanelServiceTest {
     @Test
     void shouldNotUpdateEmptySection() throws DataAccessException {
        // TODO: complete
+        SolarPanel panel = new SolarPanel(1, null, 1, 1, 2020,
+                Material.POLY_SI, true);
+        SolarPanelResult result = service.update(panel);
+        assertFalse(result.isSuccess());
+
     }
 
     @Test
     void shouldNotUpdateNonPositiveId() throws DataAccessException {
         // TODO: complete
+        SolarPanel panel = new SolarPanel(-1, "Section One", 1, 1, 2020,
+                Material.POLY_SI, true);
+        SolarPanelResult result = service.update(panel);
+        assertFalse(result.isSuccess());
     }
 
     @Test
     void shouldNotUpdateNonExistentSolarPanel() throws DataAccessException {
         // TODO: complete
+        SolarPanel panel = new SolarPanel(1024, "Section One", 1, 1, 2020,
+                Material.POLY_SI, true);
+        SolarPanelResult result = service.update(panel);
+        assertFalse(result.isSuccess());
     }
 
     @Test
     void shouldUpdate() throws DataAccessException {
         // TODO: complete
+        SolarPanel panel = service.findByKey("Section One", 1, 1);
+        panel.setSection("Updated Section");
+
+        SolarPanelResult result = service.update(panel);
+
+        assertTrue(result.isSuccess());
     }
 
     @Test
     void shouldNotDeleteNonExistentSolarPanel() throws DataAccessException {
         // TODO: complete
+        SolarPanelResult result = service.deleteById(1024);
+        assertFalse(result.isSuccess());
     }
 
     @Test
     void shouldDelete() throws DataAccessException {
         // TODO: complete
+        SolarPanelResult result = service.deleteById(1);
+        assertTrue(result.isSuccess());
     }
 }
