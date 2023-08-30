@@ -8,17 +8,24 @@ use gravel_family;
 -- Select first_name and last_name from customer,
 -- user_name from login where rows from both tables are required.
 -- Expected: 659 Rows
-select
-	c.first_name,
-    c.last_name,
-    l.user_name
-from customer c
-inner join login l on c.customer_id = l.customer_id;
+-- select
+-- 	c.first_name,
+--     c.last_name,
+--     l.user_name
+-- from customer c
+-- inner join login l on c.customer_id = l.customer_id;
 
 -- Select first_name and last_name from customer,
 -- user_name from login where rows from both tables are required.
 -- Sort by user_name descending.
 -- Expected: 659 Rows
+-- select
+-- 	c.first_name,
+--     c.last_name,
+--     l.user_name
+-- from customer c
+-- inner join login l on c.customer_id = l.customer_id order by user_name desc;
+	
 
 -- Select first_name and last_name from customer,
 -- user_name from login where rows from both tables are required.
@@ -26,22 +33,52 @@ inner join login l on c.customer_id = l.customer_id;
 -- Sort by user_name descending.
 -- Expected: 24 Rows
 
+-- select
+-- 	c.first_name,
+--     c.last_name,
+--     l.user_name
+-- from customer c
+-- inner join login l on c.customer_id = l.customer_id where last_name like 'W%' order by user_name desc;
+
 -- Join item and category. Select the item name and category name.
 -- Expected: 19 Rows
+
+-- select
+-- 	i.`name`,
+--     c.`name`
+-- from item i
+-- left outer join category c on i.item_id = c.category_id;
 
 -- Join item and category. Select the item name and category name.
 -- Create an alias for each column: item_name and category_name
 -- Sort by the category_name, then item_name.
 -- Expected: 19 Rows
 
+-- select
+-- 	i.`name` as item_name,
+--     c.`name` as category_name
+-- from item i
+-- left outer join category c on i.item_id = c.category_id order by category_name, item_name;
+
 -- Select name and price_per_unit from item,
 -- name from unit. Make rows from both tables required.
 -- Add column aliases to avoid confusion from two `name` columns.
 -- Expected: 19 Rows
 
+-- select
+-- 	i.`name` as item_name,
+--     i.price_per_unit,
+--     u.`name` as unit_name
+-- from item i
+-- left outer join unit u on i.item_id = u.unit_id;
+
 -- Select all columns from item, category, and unit.
 -- Make all rows required.
 -- Expected: 19 Rows
+-- select
+-- *
+-- from item i
+-- left outer join unit u on i.item_id = u.unit_id left outer join category c on i.item_id = c.category_id;
 
 -- Select first_name, last_name from customer,
 -- select description from project,
@@ -49,6 +86,14 @@ inner join login l on c.customer_id = l.customer_id;
 -- If a customer doesn't have a project, still include them.
 -- (Hint: left outer join)
 -- Expected: 228 Rows
+-- select
+-- 	c.first_name,
+--     c.last_name,
+--     p.`description`
+-- from customer c
+-- left outer join project p on c.customer_id = p.project_id where c.last_name like 'B%' or c.last_name like 'D%';
+-- INCORRECT; not including customers where there is no project???
+
 
 -- Find all customers who do not have a project.
 -- Expected: 195 Rows
@@ -82,6 +127,17 @@ inner join login l on c.customer_id = l.customer_id;
 -- Lanie Stelfox 481 Construction Sand 336.000000
 -- Lanie Stelfox 481 Class 5 Gravel    624.000000
 -- Lanie Stelfox 481 Wall Stone        3452.100000
+select
+	concat(c.first_name, ' ', c.last_name) as full_name,
+    p.project_id,
+    i.`name`,
+    i.price_per_unit * pi.quantity as cost
+from customer c
+inner join project p on p.customer_id = c.customer_id
+inner join project_item pi on pi.project_id = p.project_id
+inner join item i on i.item_id = pi.item_id
+where c.last_name = 'Stelfox';
+
 
 -- Find customers without logins using a `right outer` join.
 -- Expected: 341 Rows
@@ -89,6 +145,11 @@ inner join login l on c.customer_id = l.customer_id;
 -- List category with its parent category, but make the parent category
 -- optional to include categories without a parent.
 -- Expected: 8 Rows
+select
+	c.`name`,
+    ifnull(p.`name`, 'NA') as parent_name
+from category c
+left outer join category p on p.category_id = c.parent_category_id;
 
 -- Write an "everything" query:
 -- customer_id and names from customer
@@ -106,3 +167,14 @@ inner join login l on c.customer_id = l.customer_id;
 -- regardless of if they have a project or Fleur worked on it.
 -- Though something should indicate if Fleur was on a M3H project.
 -- Expected: 48 Rows, 3 projects that Fleur worked on.
+
+select 
+	concat(c.first_name, ' ', c.last_name) as customer_full_name,
+    p.project_id,
+    concat(e.first_name, ' ', e.last_name) as employee_full_name
+from customer c 
+left outer join project p on p.customer_id = c.customer_id
+left outer join project_employee pe on pe.project_id = p.project_id and pe.employee_id = 
+(select employee_id from employee where first_name = 'Fleur' and last_name = 'Soyle')
+left outer join employee e on e.employee_id = pe.employee_id
+where postal_code = 'M3H';
