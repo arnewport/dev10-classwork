@@ -1,14 +1,15 @@
-use crowd_funding;
+use solar_farm;
 
-insert into campaign (`name`, `description`, start_date, end_date, funding_goal)
-	values
-    ('Coloma: New Prospects (Expansion and Reprint)', 
-    'Saddle up and prepare to strike gold with a reprint and expansion to one of 2019''s hottest titles, Coloma!', 
-    '2023-07-01', '2023-08-01', 30000);
-    
-insert into backer (`name`, email_address) values
-	('Lyndell Long', 'llong0@purevolume.com'),
-    ('Boothe Blasgen', 'bblasgen1@spiegel.de');
-    
-insert into pledge(campaign_id, backer_id, amount) values
-	(1, 1, 100);
+insert into material (material_type) values
+    ("Multicrystalline Silicon"),
+    ("Monocrystalline Silicon"),
+    ("Amorphous Silicon"),
+    ("Cadmium Telluride"),
+    ("Copper Indium Gallium Selenide");
+
+insert into panel (material_id, section, `row`, `column`, year_installed, is_tracking) values 
+    (1, "The Ridge", 1, 1, 2020, 1),
+    (2, "The Ridge", 1, 2, 2019, 1),
+    (3, "Flats", 1, 1, 2017, 1),
+    (4, "Flats", 2, 6, 2017, 1),
+    (5, "Flats", 3, 7, 2000, 0);
