@@ -1,3 +1,5 @@
+use solar_farm;
+
 select 
     p.section,
     p.`row`,
