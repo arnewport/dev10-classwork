@@ -1,4 +1,4 @@
-package learn.panel;
+package learn.solarfarm;
 // edit the above so it matches the application
 
 import com.mysql.cj.jdbc.MysqlDataSource;
