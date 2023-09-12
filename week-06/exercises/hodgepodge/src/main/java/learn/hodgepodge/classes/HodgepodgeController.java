@@ -93,8 +93,10 @@ public class HodgepodgeController {
 //    Input: None
 //    Output: To-Dos as List<String>
 
+
+    // , @RequestParam("appendList") String header
     @PutMapping("/todo")
-    public void appendList(@RequestBody List<String> items, @RequestParam("appendList") String header) {
+    public void appendList(@RequestBody List<String> items) {
         todos.addAll(items);
     }
 
@@ -132,8 +134,9 @@ public class HodgepodgeController {
 //    Input: @PathVariable int index
 //    Output: None
 
-    @PutMapping("/todo")
-    public void replaceTodo(@RequestBody ArrayList<String> items, @RequestParam("replaceTodo") String header) {
+    // , @RequestParam("replaceTodo") String header
+    @PostMapping("/todo")
+    public void replaceTodo(@RequestBody ArrayList<String> items) {
         todos = items;
     }
 
