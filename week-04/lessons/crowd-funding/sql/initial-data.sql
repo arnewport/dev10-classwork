@@ -8,6 +8,8 @@ insert into campaign (`name`, `description`, start_date, end_date, funding_goal)
     
 insert into backer (`name`, email_address) values
 	('Lyndell Long', 'llong0@purevolume.com'),
+    ('Alpha Long', 'along0@purevolume.com'),
+    ('Beta Long', 'blong0@purevolume.com'),
     ('Boothe Blasgen', 'bblasgen1@spiegel.de');
     
 insert into pledge(campaign_id, backer_id, amount) values

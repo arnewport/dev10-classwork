@@ -1055,6 +1055,7 @@ insert into `user` (first_name, last_name, email, phone) values
 	('Marion','O''Bradane','mobradanerr@oracle.com','(805) 7860921');
 
 insert into location (user_id, address, city, postal_code, state_id, standard_rate, weekend_rate) values
+	(1,'1 Magic Circle','Nowhere','99999',(select state_id from state where usps_code = 'FL'),100,200),
 	(2,'6497 Manitowish Circle','Melbourne','32919',(select state_id from state where usps_code = 'FL'),110,127),
 	(3,'82309 Hermina Court','Santa Cruz','95064',(select state_id from state where usps_code = 'CA'),245,263),
 	(4,'302 Wayridge Hill','Atlanta','30351',(select state_id from state where usps_code = 'GA'),290,304),
@@ -1540,3 +1541,10 @@ insert into location (user_id, address, city, postal_code, state_id, standard_ra
 	(997,'217 David Avenue','Milwaukee','53215',(select state_id from state where usps_code = 'WI'),163,188),
 	(998,'9 Valley Edge Alley','San Antonio','78285',(select state_id from state where usps_code = 'TX'),322,372),
 	(999,'6366 Golf Plaza','Daytona Beach','32118',(select state_id from state where usps_code = 'FL'),311,340);
+    
+    insert into reservation(location_id, guest_user_id, start_date, end_date, total)
+		values 
+		(1, 554, "2023-1-1", "2023-1-5", 600),
+		(1, 554, "2024-1-1", "2024-1-5", 500),
+        (1, 554, "2025-1-1", "2025-1-5", 600)
+    ;
