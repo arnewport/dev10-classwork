@@ -2,10 +2,12 @@ package learn.solarfarm.domain;
 
 import learn.solarfarm.data.SolarPanelRepository;
 import learn.solarfarm.models.SolarPanel;
+import org.springframework.stereotype.Service;
 
 import java.time.Year;
 import java.util.List;
 
+@Service
 public class SolarPanelService {
     public final static int MAX_ROW_COLUMN = 250;
 

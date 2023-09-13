@@ -3,22 +3,25 @@ package learn.solarfarm.data;
 import learn.solarfarm.models.SolarPanel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Repository
 public class SolarPanelJdbcTemplateRepository implements SolarPanelRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    public SolarPanelJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private final String SELECT = """
             select panel_id, section, `row`, `column`,
             year_installed, material, is_tracking
             from panel
             """;
-
-    public SolarPanelJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public List<SolarPanel> findBySection(String section) {
