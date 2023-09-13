@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,9 +35,20 @@ public class SolarPanelController {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    // TODO: ADD DEPTH AND ERROR HANDLING
-    @PutMapping("/{id}")
+    @PutMapping("/")
     public ResponseEntity<SolarPanelResult> update(@RequestBody SolarPanel panel) {
+        if (panel == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        String section = panel.getSection();
+        int row = panel.getRow();
+        int column = panel.getColumn();
+
+        if (service.findByKey(section, row, column) == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
         SolarPanelResult result = service.update(panel);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -44,14 +56,16 @@ public class SolarPanelController {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    // TODO: ASSURE THIS WORKS
     @DeleteMapping("/{id}")
     public ResponseEntity<SolarPanelResult> deleteById(@PathVariable int id) {
         SolarPanelResult result = service.deleteById(id);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
-        // Add a NOT FOUND message
+        // TODO: Corbin called this solution he wrote "hacky"; what would be a better way to do it?
+        if (result.getErrorMessages().contains("could not delete")) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
