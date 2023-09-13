@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/")
 public class HodgepodgeController {
 
+
     // TODO: add response entities
 
     // Sheep variables and methods
@@ -96,8 +97,10 @@ public class HodgepodgeController {
 
     // , @RequestParam("appendList") String header
     @PutMapping("/todo")
-    public void appendList(@RequestBody List<String> items) {
-        todos.addAll(items);
+    public void appendList(@RequestBody ArrayList<String> items) {
+        if (todos != null) {
+            todos.addAll(items);
+        }
     }
 
 //    Append a list of To-Dos to todos.
@@ -120,8 +123,8 @@ public class HodgepodgeController {
     @DeleteMapping("/todo/{index}")
     public ResponseEntity<String> deleteTodo(@PathVariable int index) {
 
-        if (todos.get(index) == null) {
-            return new ResponseEntity<>(String.format("Cannot find value at index %s", index), HttpStatus.BAD_REQUEST);
+        if (todos.isEmpty()) {
+            return new ResponseEntity<>(String.format("Cannot find value at index %s", index), HttpStatus.NOT_FOUND);
         }
 
         todos.remove(index);
