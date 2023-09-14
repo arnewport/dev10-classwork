@@ -1,9 +1,10 @@
 package learn.solarfarm.data;
 
-import learn.solarfarm.DataHelper;
 import learn.solarfarm.models.SolarPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,10 +13,13 @@ import java.util.List;
 import static learn.solarfarm.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SolarPanelJdbcTemplateRepositoryTest {
 
-    JdbcTemplate jdbcTemplate = DataHelper.getJdbcTemplate();
-    SolarPanelJdbcTemplateRepository repository = new SolarPanelJdbcTemplateRepository(jdbcTemplate);
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+    @Autowired
+    SolarPanelJdbcTemplateRepository repository;
 
     @BeforeEach
     void setup() {
