@@ -2,6 +2,7 @@ package learn.solarfarm.domain;
 
 import learn.solarfarm.data.SolarPanelRepository;
 import learn.solarfarm.models.SolarPanel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import java.util.List;
 import static learn.solarfarm.TestHelper.*;
 import static learn.solarfarm.domain.SolarPanelService.MAX_ROW_COLUMN;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +30,8 @@ class SolarPanelServiceTest {
     @Test
     void shouldFindBySection_red() {
         var expected = List.of(makePanel(1), makePanel(2), makePanel(3));
+        // TODO: Unsure
+        when(repository.findBySection(any())).thenReturn(expected);
         var actual = service.findBySection("red");
         assertEquals(expected, actual);
     }
@@ -42,6 +46,8 @@ class SolarPanelServiceTest {
     @Test
     void shouldFindByKey_red_1_1() {
         SolarPanel expected = makePanel(1);
+        // TODO: Unsure
+        when(repository.findByKey(any(), anyInt(), anyInt())).thenReturn(expected);
         SolarPanel actual = service.findByKey("red", 1, 1);
         assertEquals(expected, actual);
     }
@@ -171,7 +177,7 @@ class SolarPanelServiceTest {
     void shouldNotCreateNonUniqueSectionRowColumn() {
         SolarPanel arg = makePanel(1);
         arg.setId(0);
-
+        when(repository.findByKey(any(), anyInt(), anyInt())).thenReturn(makePanel(1));
         SolarPanelResult expected = makeResult("SolarPanel `section`, `row`, and `column` must be unique.", null);
         SolarPanelResult actual = service.create(arg);
 
@@ -188,16 +194,16 @@ class SolarPanelServiceTest {
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    void shouldCreate() {
-//        SolarPanel arg = makePanel(5);
-////        arg.setId(0);
-//        expected = when(repository.add(any())).thenReturn(makePanel(5));
-////        SolarPanelResult expected = makeResult(null, arg);
-//        SolarPanelResult actual = service.create(arg);
-//
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    void shouldCreate() {
+        SolarPanel arg = makePanel(5);
+        arg.setId(0);
+        when(repository.create(any())).thenReturn(makePanel(5));
+        SolarPanelResult expected = makeResult(null, makePanel(5));
+        SolarPanelResult actual = service.create(arg);
+
+        assertEquals(expected, actual);
+    }
 
     @Test
     void shouldNotUpdateEmptySection() {
@@ -236,7 +242,7 @@ class SolarPanelServiceTest {
     void shouldUpdate() {
         SolarPanel arg = makePanel(1);
         arg.setSection("yellow");
-
+        when(repository.update(arg)).thenReturn(true);
         SolarPanelResult expected = makeResult(null, null);
         SolarPanelResult actual = service.update(arg);
 
@@ -252,8 +258,9 @@ class SolarPanelServiceTest {
 
     @Test
     void shouldDelete() {
+        when(repository.deleteById(anyInt())).thenReturn(true);
         SolarPanelResult expected = makeResult(null, null);
-        SolarPanelResult actual = service.deleteById(5);
+        SolarPanelResult actual = service.deleteById(1);
         assertEquals(expected, actual);
     }
 }
