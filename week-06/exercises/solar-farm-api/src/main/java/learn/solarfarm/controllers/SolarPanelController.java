@@ -16,7 +16,6 @@ public class SolarPanelController {
 
     private final SolarPanelService service;
 
-
     public SolarPanelController(SolarPanelService service) {
         this.service = service;
     }
@@ -52,6 +51,21 @@ public class SolarPanelController {
         SolarPanelResult result = service.update(panel);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
+    // alternative update
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SolarPanelResult> update2ElectricBoogaloo(@PathVariable int id, @RequestBody SolarPanel panel) {
+        if (panel != null && id != panel.getId()) {
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
+
+        SolarPanelResult result = service.update(panel);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }

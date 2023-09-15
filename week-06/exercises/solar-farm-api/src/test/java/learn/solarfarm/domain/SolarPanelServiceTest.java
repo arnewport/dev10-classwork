@@ -194,6 +194,7 @@ class SolarPanelServiceTest {
         assertEquals(expected, actual);
     }
 
+    // change the order of expected; put it before the when
     @Test
     void shouldCreate() {
         SolarPanel arg = makePanel(5);
