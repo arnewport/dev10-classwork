@@ -5,8 +5,12 @@ import learn.field_agent.data.mappers.SecurityClearanceMapper;
 import learn.field_agent.models.Agency;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -36,5 +40,25 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
         return jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
                 .stream()
                 .findFirst().orElse(null);
+    }
+
+    @Override
+    public SecurityClearance add(SecurityClearance clearance) {
+
+        final String sql = "insert into security_clearance (name) values (?);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, clearance.getName());
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        clearance.setSecurityClearanceId(keyHolder.getKey().intValue());
+        return clearance;
     }
 }
