@@ -1,11 +1,15 @@
 package learn.field_agent.data;
 
+import learn.field_agent.data.mappers.AgencyAgentMapper;
 import learn.field_agent.data.mappers.SecurityClearanceMapper;
+import learn.field_agent.models.AgencyAgent;
+import learn.field_agent.models.AgentAgency;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -68,6 +72,20 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
                 + "where security_clearance_id = ?";
 
         return jdbcTemplate.update(sql, clearance.getName(), clearance.getSecurityClearanceId()) > 0;
+    }
+
+    @Override
+    public boolean deleteById(int securityClearanceId) {
+        return jdbcTemplate.update("delete from security_clearance where security_clearance_id = ?", securityClearanceId) > 0;
+    }
+
+    @Override
+    public int countInstancesOfId(int securityClearanceId) {
+        // limit until we develop a paging solution
+        final String sql = "select count(*) " +
+                "from agency_agent " +
+                "where security_clearance_id = ? limit 1000;";
+        return jdbcTemplate.queryForObject(sql, Integer.class, securityClearanceId);
     }
     
 }

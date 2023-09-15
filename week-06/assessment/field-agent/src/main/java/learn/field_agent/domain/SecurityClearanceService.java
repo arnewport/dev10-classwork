@@ -14,8 +14,8 @@ public class SecurityClearanceService {
         this.repository = repository;
     }
 
-    public SecurityClearance findById(int id) {
-        return repository.findById(id);
+    public SecurityClearance findById(int securityClearanceId) {
+        return repository.findById(securityClearanceId);
     }
 
     public List<SecurityClearance> findAll() {
@@ -55,6 +55,14 @@ public class SecurityClearanceService {
         }
 
         return result;
+    }
+
+    public boolean deleteById(int securityClearanceId) {
+        return repository.deleteById(securityClearanceId);
+    }
+
+    public int countInstanceOfId(int securityClearanceId) {
+        return repository.countInstancesOfId(securityClearanceId);
     }
 
     private Result<SecurityClearance> validate(SecurityClearance clearance) {
