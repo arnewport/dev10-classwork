@@ -1,8 +1,6 @@
 package learn.field_agent.data;
 
-import learn.field_agent.data.mappers.AgencyMapper;
 import learn.field_agent.data.mappers.SecurityClearanceMapper;
-import learn.field_agent.models.Agency;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -61,4 +59,15 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
         clearance.setSecurityClearanceId(keyHolder.getKey().intValue());
         return clearance;
     }
+
+    @Override
+    public boolean update(SecurityClearance clearance) {
+
+        final String sql = "update security_clearance set "
+                + "name = ? "
+                + "where security_clearance_id = ?";
+
+        return jdbcTemplate.update(sql, clearance.getName(), clearance.getSecurityClearanceId()) > 0;
+    }
+    
 }

@@ -38,4 +38,16 @@ public class SecurityClearanceController {
         return ErrorResponse.build(result);
     }
 
+    @PutMapping("/{securityClearanceId}")
+    public ResponseEntity<Object> update(@PathVariable int securityClearanceId, @RequestBody SecurityClearance clearance) {
+        if (securityClearanceId != clearance.getSecurityClearanceId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        Result<SecurityClearance> result = service.update(clearance);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
 }
