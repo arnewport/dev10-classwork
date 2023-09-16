@@ -2,6 +2,7 @@ package learn.field_agent.controllers;
 
 import learn.field_agent.domain.Result;
 import learn.field_agent.domain.SecurityClearanceService;
+import learn.field_agent.models.Agency;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,21 @@ public class SecurityClearanceController {
     }
 
     @GetMapping("/{securityClearanceId}")
-    public SecurityClearance findById(@PathVariable int securityClearanceId) {
-        return service.findById(securityClearanceId);
+    public ResponseEntity<SecurityClearance> findById(@PathVariable int securityClearanceId) {
+        SecurityClearance clearance = service.findById(securityClearanceId);
+        if (clearance == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(clearance);
     }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody SecurityClearance clearance) {
+        int count = service.countInstanceOfId(clearance.getSecurityClearanceId());
+        if (count > 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Result<SecurityClearance> result = service.add(clearance);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
@@ -41,7 +51,7 @@ public class SecurityClearanceController {
     @PutMapping("/{securityClearanceId}")
     public ResponseEntity<Object> update(@PathVariable int securityClearanceId, @RequestBody SecurityClearance clearance) {
         if (securityClearanceId != clearance.getSecurityClearanceId()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Result<SecurityClearance> result = service.update(clearance);
