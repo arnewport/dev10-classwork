@@ -55,7 +55,7 @@ public class SecurityClearanceController {
     public ResponseEntity<Void> deleteById(@PathVariable int securityClearanceId) {
         int count = service.countInstanceOfId(securityClearanceId);
         if (count > 0) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (service.deleteById(securityClearanceId)) {
