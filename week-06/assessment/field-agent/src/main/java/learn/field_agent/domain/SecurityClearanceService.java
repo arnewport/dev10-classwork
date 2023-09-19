@@ -79,11 +79,7 @@ public class SecurityClearanceService {
 
         // TODO: innovating here but there may be pre-existing code I can use
         // TODO: the fancy SecurityClearance::getName is courtesy of ChatGPT
-        List<String> names = repository.findAll().stream()
-                .map(SecurityClearance::getName)
-                .toList();
-
-        if (names.contains(clearance.getName())) {
+        if (repository.findAll().stream().anyMatch(sc -> sc.getName().equalsIgnoreCase(clearance.getName()))) {
             result.addMessage("duplicate names are not permitted", ResultType.INVALID);
         }
 
