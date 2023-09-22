@@ -1,6 +1,7 @@
 const DISPLAY_NONE = "d-none";
 
 const form = document.querySelector("form");
+const modal = new bootstrap.Modal(document.getElementById("deleteConfirmationModal"));
 let currentView = "landing";
 
 function changeView(view) {
@@ -37,11 +38,20 @@ async function showUpdate(agentId) {
 // The confirmation view should allow for a delete or cancel.
 // Cancel returns to the agent list view.
 async function confirmDelete(agentId) {
+
 	const agentToDelete = await findById(agentId);
-	const deleteConfirmation = window.confirm(
-		`Are you sure you want to delete ${agentToDelete.title}?`
-	);
-	if (deleteConfirmation) {
+
+    modal.show();
+
+    function deleteOnClick() {
+        return new Promise((resolve) => {
+            document.getElementById("confirm-delete").addEventListener("click", () => {
+                resolve();
+            });
+        });
+    }
+    
+	deleteOnClick().then(() => {
 		deleteById(agentId)
 			.then(res => {
 				// success
@@ -50,14 +60,15 @@ async function confirmDelete(agentId) {
 				}
 			})
 			.catch(console.error);
-	} else {
-		window.alert('agent not deleted.');
-	}
-}
 
-// TODO: create a function that deletes an agent when the
-// delete confirmation view is confirmed. Confirmation can be a form submission
-// or a button click.
+            document.getElementById("confirm-delete").removeEventListener("click", () => {
+                resolve();
+            });
+
+            modal.hide();
+	})
+
+}
 
 function populateAgents(agents) {
 
@@ -73,8 +84,6 @@ function populateAgents(agents) {
 
     let html = "";
     for (const agent of agents) {
-        // TODO: This embedded HTML explicitly attaches a function call for update and delete.
-        // Complete the confirmDelete and showUpdate functions.
         html += `<tr>
             <td>${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</td>
             <td>${agent.dob}</td>
