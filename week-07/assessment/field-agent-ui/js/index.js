@@ -13,9 +13,27 @@ function changeView(view) {
     currentView = view;
 }
 
+function resetForm() {
+	// formErrorsList.innerHTML = '';
+	// formErrorsEl.classList.add('d-none');
+	form.reset();
+}
+
 // TODO: Populate an existing agent into the HTML form.
-function showUpdate() {
-    alert("Implement update!");
+async function showUpdate(agentId) {
+    resetForm();
+	const agent = await findById(agentId);
+	if (!agent) {
+		return;
+	}
+
+	form.firstName.value = agent.firstName;
+	form.middleName.value = agent.middleName;
+	form.lastName.value = agent.lastName;
+	form.dob.value = agent.dob;
+	form.heightInInches.value = agent.heightInInches;
+	form.agentId.value = agentId;
+    changeView("form");
 }
 
 // TODO: Populate an existing agent into a delete confirmation view. 
@@ -51,24 +69,12 @@ function populateAgents(agents) {
             <td>${agent.heightInInches}</td>
             <td>
                 <button type="button" class="btn btn-danger me-2" onClick="confirmDelete(${agent.agentId})">Delete</button>
-                <button type="button" class="btn btn-info" onClick="showUpdate()">Edit</button>
+                <button type="button" class="btn btn-info edit" onClick="showUpdate(${agent.agentId})">Edit</button>
             </td>
         </tr>`;
     }
 
     tbody.innerHTML = html;
-}
-
-function fetchAgents() {
-    fetch("http://localhost:8080/api/agent")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject();
-        })
-        .then(agents => populateAgents(agents))
-        .catch(console.error);
 }
 
 function showList() {
@@ -102,26 +108,23 @@ function submitForm(evt) {
     if (form.checkValidity()) {
 
         const agent = {
-            firstName: document.getElementById("firstName").value,
-            middleName: document.getElementById("middleName").value,
-            lastName: document.getElementById("lastName").value,
-            dob: document.getElementById("dob").value,
-            heightInInches: document.getElementById("heightInInches").value
+            firstName: form.firstName.value,
+            middleName: form.middleName.value,
+            lastName: form.lastName.value,
+            dob: form.dob.value,
+            heightInInches: form.heightInInches.value,
+            agentId: parseInt(form.agentId.value, 10)
         };
 
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(agent)
-        };
+        debugger;
 
-        fetch("http://localhost:8080/api/agent", config)
+        save(agent)
             .then(response => {
                 if (response.ok) {
+                    debugger;
                     showList();
                 } else {
+                    debugger;
                     return response.json();
                 }
             })
@@ -149,6 +152,7 @@ document.getElementById("linkAgencies")
 
 document.querySelector(".list button")
     .addEventListener("click", () => {
+        form.reset();
         changeView("form");
     });
 
