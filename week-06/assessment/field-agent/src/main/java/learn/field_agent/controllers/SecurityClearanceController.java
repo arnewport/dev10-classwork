@@ -1,6 +1,7 @@
 package learn.field_agent.controllers;
 
 import learn.field_agent.domain.Result;
+import learn.field_agent.domain.ResultType;
 import learn.field_agent.domain.SecurityClearanceService;
 import learn.field_agent.models.Agency;
 import learn.field_agent.models.SecurityClearance;
@@ -62,7 +63,7 @@ public class SecurityClearanceController {
     }
 
     @DeleteMapping("/{securityClearanceId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int securityClearanceId) {
+    public ResponseEntity<?> deleteById(@PathVariable int securityClearanceId) {
       
         Result<?> result = service.deleteById(securityClearanceId);
         if(result.isSuccess()) {

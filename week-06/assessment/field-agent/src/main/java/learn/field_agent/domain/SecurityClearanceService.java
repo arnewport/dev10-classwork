@@ -3,6 +3,7 @@ package learn.field_agent.domain;
 import learn.field_agent.data.SecurityClearanceRepository;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -57,8 +58,15 @@ public class SecurityClearanceService {
         return result;
     }
 
-    public boolean deleteById(int securityClearanceId) {
-        return repository.deleteById(securityClearanceId);
+    @Transactional
+    public Result<?> deleteById(int securityClearanceId) {
+        Result<?> result = new Result<>();
+        if (repository.countInstancesOfId(securityClearanceId) > 0) {
+            result.addMessage("clearance cannot be null", ResultType.INVALID);
+            return result;
+        }
+        repository.deleteById(securityClearanceId);
+        return result;
     }
 
     public int countInstanceOfId(int securityClearanceId) {
@@ -77,8 +85,6 @@ public class SecurityClearanceService {
             return result;
         }
 
-        // TODO: innovating here but there may be pre-existing code I can use
-        // TODO: the fancy SecurityClearance::getName is courtesy of ChatGPT
         if (repository.findAll().stream().anyMatch(sc -> sc.getName().equalsIgnoreCase(clearance.getName()))) {
             result.addMessage("duplicate names are not permitted", ResultType.INVALID);
         }

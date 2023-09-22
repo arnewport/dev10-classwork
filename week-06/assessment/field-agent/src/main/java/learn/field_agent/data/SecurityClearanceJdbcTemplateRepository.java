@@ -81,10 +81,9 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
 
     @Override
     public int countInstancesOfId(int securityClearanceId) {
-        // limit until we develop a paging solution
         final String sql = "select count(*) " +
                 "from agency_agent " +
-                "where security_clearance_id = ? limit 1000;";
+                "where security_clearance_id = ?;";
         return jdbcTemplate.queryForObject(sql, Integer.class, securityClearanceId);
     }
     
