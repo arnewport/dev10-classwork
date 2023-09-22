@@ -116,21 +116,14 @@ function submitForm(evt) {
             agentId: parseInt(form.agentId.value, 10)
         };
 
-        debugger;
-
         save(agent)
-            .then(response => {
-                if (response.ok) {
-                    debugger;
-                    showList();
-                } else {
-                    debugger;
-                    return response.json();
-                }
-            })
             .then(errors => {
-                if (errors) {
+                if (!errors) {
+                    showList();
+                } else if (errors.messages.length) {
                     showValidationSummary(errors);
+                } else {
+                    showValidationSummary("Something unexpected went wrong");
                 }
             })
             .catch(console.error);
