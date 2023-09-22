@@ -72,11 +72,11 @@ async function save(agent) {
 	}
 }
 
-async function deleteById(gameId) {
+async function deleteById(agentId) {
 	const config = {
 		method: 'DELETE',
 	};
-	const response = await fetch(`${BASE_URL}/${gameId}`, config);
+	const response = await fetch(`${BASE_URL}/${agentId}`, config);
 	// success
 	if (response.status === 204) {
 		return null;

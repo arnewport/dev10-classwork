@@ -14,12 +14,9 @@ function changeView(view) {
 }
 
 function resetForm() {
-	// formErrorsList.innerHTML = '';
-	// formErrorsEl.classList.add('d-none');
 	form.reset();
 }
 
-// TODO: Populate an existing agent into the HTML form.
 async function showUpdate(agentId) {
     resetForm();
 	const agent = await findById(agentId);
@@ -39,8 +36,23 @@ async function showUpdate(agentId) {
 // TODO: Populate an existing agent into a delete confirmation view. 
 // The confirmation view should allow for a delete or cancel.
 // Cancel returns to the agent list view.
-function confirmDelete(agentId) {
-    alert(`Implement delete! Agent ID: ${agentId}`);
+async function confirmDelete(agentId) {
+	const agentToDelete = await findById(agentId);
+	const deleteConfirmation = window.confirm(
+		`Are you sure you want to delete ${agentToDelete.title}?`
+	);
+	if (deleteConfirmation) {
+		deleteById(agentId)
+			.then(res => {
+				// success
+				if (!res) {
+					fetchAgents();
+				}
+			})
+			.catch(console.error);
+	} else {
+		window.alert('agent not deleted.');
+	}
 }
 
 // TODO: create a function that deletes an agent when the
@@ -97,8 +109,6 @@ function hideValidationSummary() {
     document.getElementById("validationSummary").classList.add(DISPLAY_NONE);
 }
 
-// TODO: Modify this function to allow for update.
-// Don't create two different forms for create and update.
 function submitForm(evt) {
 
     evt.preventDefault();
