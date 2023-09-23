@@ -14,10 +14,6 @@ function changeView(view) {
     currentView = view;
 }
 
-function resetForm() {
-	form.reset();
-}
-
 async function showUpdate(agentId) {
     resetForm();
 	const agent = await findById(agentId);
@@ -34,9 +30,6 @@ async function showUpdate(agentId) {
     changeView("form");
 }
 
-// TODO: Populate an existing agent into a delete confirmation view. 
-// The confirmation view should allow for a delete or cancel.
-// Cancel returns to the agent list view.
 async function confirmDelete(agentId) {
 
 	const agentToDelete = await findById(agentId);
@@ -86,8 +79,8 @@ function populateAgents(agents) {
     for (const agent of agents) {
         html += `<tr>
             <td>${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</td>
-            <td>${agent.dob}</td>
-            <td>${agent.heightInInches}</td>
+            <td>${dateFormatter(agent.dob)}</td>
+            <td>${heightFormatter(agent.heightInInches)}</td>
             <td>
                 <button type="button" class="btn btn-danger me-2" onClick="confirmDelete(${agent.agentId})">Delete</button>
                 <button type="button" class="btn btn-info edit" onClick="showUpdate(${agent.agentId})">Edit</button>
@@ -147,6 +140,41 @@ function submitForm(evt) {
             })
             .catch(console.error);
     }
+}
+
+// formatters
+
+function dateFormatter(date) {
+    if (date === null || date === undefined) {
+        return "Unknown";
+    }
+
+    const dateParts = date.split('-');
+
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+
+    return `${month}/${day}/${year}`;
+}
+
+function heightFormatter(inches) {
+    if (inches === null || inches === undefined || isNaN(inches)) {
+        return "Unknown";
+    }
+
+    const feet = Math.floor(inches / 12);
+    const remainingInches = inches % 12;
+
+    if (feet === 0) {
+        return `${remainingInches}"`;
+    }
+
+    if (remainingInches === 0) {
+        return `${feet}' 0"`;
+    }
+
+    return `${feet}' ${remainingInches}"`;
 }
 
 // event handlers
