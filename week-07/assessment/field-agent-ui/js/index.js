@@ -43,6 +43,10 @@ async function confirmDelete(agentId) {
 
     modal.show();
 
+    const button = document.getElementById("confirm-delete");
+    const clone = button.cloneNode(true);
+    button.parentNode.replaceChild(clone, button);
+
     function deleteOnClick() {
         return new Promise((resolve) => {
             document.getElementById("confirm-delete").addEventListener("click", () => {
@@ -60,10 +64,6 @@ async function confirmDelete(agentId) {
 				}
 			})
 			.catch(console.error);
-
-            document.getElementById("confirm-delete").removeEventListener("click", () => {
-                resolve();
-            });
 
             modal.hide();
 	})
