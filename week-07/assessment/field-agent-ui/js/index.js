@@ -34,6 +34,10 @@ async function confirmDelete(agentId) {
 
 	const agentToDelete = await findById(agentId);
 
+    if (!agentToDelete) {
+        fetchAgents();
+        return;
+    }
     modal.show();
 
     const button = document.getElementById("confirm-delete");
