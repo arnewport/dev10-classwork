@@ -15,7 +15,7 @@ function changeView(view) {
 }
 
 async function showUpdate(agentId) {
-    resetForm();
+    form.reset;
 	const agent = await findById(agentId);
 	if (!agent) {
 		return;
