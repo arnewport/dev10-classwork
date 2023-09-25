@@ -18,15 +18,12 @@ async function findById(agentId) {
 	const response = await fetch(`${BASE_URL}/${agentId}`);
 	// TODO ... handle unhappy path (404, etc.)
     if (!response.ok) {
-		if (response.status === 404) {
-		  throw new Error(`Agent with ID ${agentId} not found.`);
-		} else {
-		  throw new Error(`Failed to fetch agent data. Status: ${response.status}`);
-		}
-	  }
+		throw new Error(`Failed to fetch agent data. Status: ${response.status}`);
+	}
 	const data = await response.json();
 	return data;
-	} catch (error) {
+	} 
+	catch (error) {
 		console.error('Error fetching agent data:', error.message);
 	}
 }
