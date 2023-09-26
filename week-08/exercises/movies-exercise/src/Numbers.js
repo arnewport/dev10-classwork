@@ -1,5 +1,7 @@
-export default function Numbers({ value }) {
-    return (
-        <li>{value}</li>
-    );
+export default function Numbers({ value, min, max }) {
+    if (value >= min && value <= max) {
+        return (
+            <li>{value}</li>
+        );
+    }
 }

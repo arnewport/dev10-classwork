@@ -19,6 +19,8 @@ const headings = [
 ]
 
 const numbersToDisplay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const min = 2;
+const max = 8;
 
 const movies = [
   { id: 1, title: 'Toy Story', releaseYear: 1995 },
@@ -32,7 +34,7 @@ function App() {
       <div>
         {headings.map(heading => (<Heading heading={heading} key={heading.id} />))}
         <ul>
-          {numbersToDisplay.map(number => (<Numbers value={number} key={number}/>))}
+          {numbersToDisplay.map(number => (<Numbers value={number} min={min} max={max} key={number}/>))}
         </ul>
         {movies.map(movie => (<Movies movie={movie} key={movie.id} />))}
       </div>
