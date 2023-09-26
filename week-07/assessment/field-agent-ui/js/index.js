@@ -1,6 +1,7 @@
 const DISPLAY_NONE = "d-none";
 
 const form = document.querySelector("form");
+const modal = new bootstrap.Modal(document.getElementById("deleteConfirmationModal"));
 let currentView = "landing";
 
 function changeView(view) {
@@ -13,21 +14,58 @@ function changeView(view) {
     currentView = view;
 }
 
-// TODO: Populate an existing agent into the HTML form.
-function showUpdate() {
-    alert("Implement update!");
+async function showUpdate(agentId) {
+    form.reset();
+	const agent = await findById(agentId);
+	if (!agent) {
+		return;
+	}
+
+	form.firstName.value = agent.firstName;
+	form.middleName.value = agent.middleName;
+	form.lastName.value = agent.lastName;
+	form.dob.value = agent.dob;
+	form.heightInInches.value = agent.heightInInches;
+	form.agentId.value = agentId;
+    changeView("form");
 }
 
-// TODO: Populate an existing agent into a delete confirmation view. 
-// The confirmation view should allow for a delete or cancel.
-// Cancel returns to the agent list view.
-function confirmDelete(agentId) {
-    alert(`Implement delete! Agent ID: ${agentId}`);
-}
+async function confirmDelete(agentId) {
 
-// TODO: create a function that deletes an agent when the
-// delete confirmation view is confirmed. Confirmation can be a form submission
-// or a button click.
+	const agentToDelete = await findById(agentId);
+
+    if (!agentToDelete) {
+        fetchAgents();
+        return;
+    }
+    modal.show();
+
+    const button = document.getElementById("confirm-delete");
+    const clone = button.cloneNode(true);
+    button.parentNode.replaceChild(clone, button);
+
+    function deleteOnClick() {
+        return new Promise((resolve) => {
+            document.getElementById("confirm-delete").addEventListener("click", () => {
+                resolve();
+            });
+        });
+    }
+    
+	deleteOnClick().then(() => {
+		deleteById(agentId)
+			.then(res => {
+				// success
+				if (!res) {
+					fetchAgents();
+				}
+			})
+			.catch(console.error);
+
+            modal.hide();
+	})
+
+}
 
 function populateAgents(agents) {
 
@@ -43,32 +81,18 @@ function populateAgents(agents) {
 
     let html = "";
     for (const agent of agents) {
-        // TODO: This embedded HTML explicitly attaches a function call for update and delete.
-        // Complete the confirmDelete and showUpdate functions.
         html += `<tr>
             <td>${agent.firstName}${agent.middleName ? " " + agent.middleName : ""} ${agent.lastName}</td>
-            <td>${agent.dob}</td>
-            <td>${agent.heightInInches}</td>
+            <td>${dateFormatter(agent.dob)}</td>
+            <td>${heightFormatter(agent.heightInInches)}</td>
             <td>
                 <button type="button" class="btn btn-danger me-2" onClick="confirmDelete(${agent.agentId})">Delete</button>
-                <button type="button" class="btn btn-info" onClick="showUpdate()">Edit</button>
+                <button type="button" class="btn btn-info edit" onClick="showUpdate(${agent.agentId})">Edit</button>
             </td>
         </tr>`;
     }
 
     tbody.innerHTML = html;
-}
-
-function fetchAgents() {
-    fetch("http://localhost:8080/api/agent")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject();
-        })
-        .then(agents => populateAgents(agents))
-        .catch(console.error);
 }
 
 function showList() {
@@ -91,8 +115,6 @@ function hideValidationSummary() {
     document.getElementById("validationSummary").classList.add(DISPLAY_NONE);
 }
 
-// TODO: Modify this function to allow for update.
-// Don't create two different forms for create and update.
 function submitForm(evt) {
 
     evt.preventDefault();
@@ -102,36 +124,61 @@ function submitForm(evt) {
     if (form.checkValidity()) {
 
         const agent = {
-            firstName: document.getElementById("firstName").value,
-            middleName: document.getElementById("middleName").value,
-            lastName: document.getElementById("lastName").value,
-            dob: document.getElementById("dob").value,
-            heightInInches: document.getElementById("heightInInches").value
+            firstName: form.firstName.value,
+            middleName: form.middleName.value,
+            lastName: form.lastName.value,
+            dob: form.dob.value,
+            heightInInches: form.heightInInches.value,
+            agentId: parseInt(form.agentId.value, 10)
         };
 
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(agent)
-        };
-
-        fetch("http://localhost:8080/api/agent", config)
-            .then(response => {
-                if (response.ok) {
-                    showList();
-                } else {
-                    return response.json();
-                }
-            })
+        save(agent)
             .then(errors => {
-                if (errors) {
+                if (!errors) {
+                    showList();
+                } else if (errors.messages.length) {
                     showValidationSummary(errors);
+                } else {
+                    showValidationSummary("Something unexpected went wrong");
                 }
             })
             .catch(console.error);
     }
+}
+
+// formatters
+
+function dateFormatter(date) {
+    if (date === null || date === undefined) {
+        return "Unknown";
+    }
+
+    const dateParts = date.split('-');
+
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+
+    return `${month}/${day}/${year}`;
+}
+
+function heightFormatter(inches) {
+    if (inches === null || inches === undefined || isNaN(inches)) {
+        return "Unknown";
+    }
+
+    const feet = Math.floor(inches / 12);
+    const remainingInches = inches % 12;
+
+    if (feet === 0) {
+        return `${remainingInches}"`;
+    }
+
+    if (remainingInches === 0) {
+        return `${feet}' 0"`;
+    }
+
+    return `${feet}' ${remainingInches}"`;
 }
 
 // event handlers
@@ -149,6 +196,7 @@ document.getElementById("linkAgencies")
 
 document.querySelector(".list button")
     .addEventListener("click", () => {
+        form.reset();
         changeView("form");
     });
 
