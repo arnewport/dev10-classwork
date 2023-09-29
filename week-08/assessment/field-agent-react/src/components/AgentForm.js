@@ -1,19 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // TODO: Modify this component to support update/edit.
 // An update URL should have an agent id.
 // Use that id to fetch a single agent and populate it in the form.
 
-function AgentForm({ setView }) {
+const INITIAL_AGENT = {
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dob: "",
+    heightInInches: ""
+}
 
-    const [agent, setAgent] = useState({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        dob: "",
-        heightInInches: ""
-    });
+function AgentForm() {
+
+    const [agent, setAgent] = useState(INITIAL_AGENT);
     const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
+	const { id } = useParams();
+
+    useEffect(() => {
+		if (id) {
+			fetch('http://localhost:8080/api/agent/' + id)
+				.then(res => res.json())
+				.then(setAgent);
+		} else {
+			setAgent(INITIAL_AGENT);
+		}
+	}, [id]);
 
     function handleChange(evt) {
 
@@ -40,7 +55,7 @@ function AgentForm({ setView }) {
         fetch("http://localhost:8080/api/agent", config)
             .then(response => {
                 if (response.ok) {
-                    setView("list");
+                    navigate('/agents');
                 } else {
                     return response.json();
                 }
@@ -57,10 +72,6 @@ function AgentForm({ setView }) {
                     setErrors([errs]);
                 }
             });
-    }
-
-    function handleCancel() {
-        setView("list");
     }
 
     return (
@@ -104,8 +115,7 @@ function AgentForm({ setView }) {
                 </div>
                 <div className="mb-3">
                     <button type="submit" className="btn btn-primary me-2">Save</button>
-                    {/* TODO: Change this button to a React Router Link. */}
-                    <button type="button" className="btn btn-warning" onClick={handleCancel}>Cancel</button>
+                    <Link className="btn btn-warning" to="/agents">Cancel</Link>
                 </div>
             </form>
         </>

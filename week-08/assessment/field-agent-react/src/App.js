@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AgentForm from "./components/AgentForm";
 import AgentList from "./components/AgentList";
@@ -14,8 +15,6 @@ const componentMap = {
 function App() {
 
   // TODO: Implement React Router V6.
-  const [view, setView] = useState("landing");
-  const Component = componentMap[view];
 
   // TODO: Add routes for update and delete.
 
@@ -26,10 +25,28 @@ function App() {
   // If the agent isn't found. Redirect to the AgentList route.
 
   return (
-    <main className="container">
-      <Nav view={view} setView={setView} />
-      <Component setView={setView} />
-    </main>
+    <Router>
+      <Nav />
+      <main className="container">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/agents" element={<AgentList />} />
+          <Route path="/agencies" element={<Landing />} />
+          <Route
+						path="/agents/add"
+						element={<AgentForm />}
+					/>
+					<Route
+						path="/agents/edit/:id"
+						element={<AgentForm />}
+					/>
+          <Route
+						path="/agents/delete/:id"
+						element={<AgentForm />}
+					/>
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
