@@ -5,12 +5,7 @@ import AgentForm from "./components/AgentForm";
 import AgentList from "./components/AgentList";
 import Landing from "./components/Landing";
 import Nav from "./components/Nav";
-
-const componentMap = {
-  "form": AgentForm,
-  "list": AgentList,
-  "landing": Landing
-}
+import AgentDelete from "./components/AgentDelete";
 
 function App() {
 
@@ -42,7 +37,7 @@ function App() {
 					/>
           <Route
 						path="/agents/delete/:id"
-						element={<AgentForm />}
+						element={<AgentDelete />}
 					/>
         </Routes>
       </main>
