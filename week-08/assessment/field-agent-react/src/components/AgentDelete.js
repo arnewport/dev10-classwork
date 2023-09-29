@@ -74,7 +74,7 @@ function AgentDelete() {
 				<button onClick={handleDelete} className="btn btn-danger me-2">
 					Delete
 				</button>
-				<Link className="btn btn-secondary" to="/agents" style="text-decoration: none;">
+				<Link className="btn btn-secondary" to="/agents">
 					Cancel
 				</Link>
 			</div>

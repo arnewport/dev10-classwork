@@ -6,6 +6,7 @@ import AgentList from "./components/AgentList";
 import Landing from "./components/Landing";
 import Nav from "./components/Nav";
 import AgentDelete from "./components/AgentDelete";
+import NotFound from "./components/NotFound";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
 						path="/agents/delete/:id"
 						element={<AgentDelete />}
 					/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </Router>
