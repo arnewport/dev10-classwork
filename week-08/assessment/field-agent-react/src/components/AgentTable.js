@@ -22,12 +22,12 @@ function AgentTable({ agents }) {
                         The edit link should navigate to the AgentForm and pre-populate the agent. */}
                         <td>
                             <Link 
-                            to={`/agents/edit/${agent.agentId}`}
+                            to={`/agents/delete/${agent.agentId}`}
                             className="btn btn-danger me-2">
                                 Delete
                             </Link>
                             <Link 
-                            to={`/agents/delete/${agent.agentId}`}
+                            to={`/agents/edit/${agent.agentId}`}
                             className="btn btn-info">
                                 Edit
                             </Link>
