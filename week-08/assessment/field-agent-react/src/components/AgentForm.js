@@ -22,13 +22,33 @@ function AgentForm() {
 
     useEffect(() => {
 		if (id) {
-			fetch('http://localhost:8080/api/agent/' + id)
-				.then(res => res.json())
-				.then(setAgent);
-		} else {
-			setAgent(INITIAL_AGENT);
-		}
-	}, [id]);
+			fetch("http://localhost:8080/api/agent/" + id)
+				.then(res => {
+                   if (res.ok) {
+                    return res.json();
+                   }  else {
+                    return Promise.reject(
+                        new Error(`Unexpected status code ${res.status}`)
+                    );
+                   }
+                })
+				.then(setAgent).catch(
+                    error => {
+                        console.error(error);
+                        navigate("/agents");
+                    });
+                }
+            }, [id]);
+
+    // useEffect(() => {
+	// 	if (id) {
+	// 		fetch("http://localhost:8080/api/agent/" + id)
+	// 			.then(res => res.json())
+	// 			.then(setAgent);
+	// 	} else {
+	// 		setAgent(INITIAL_AGENT);
+	// 	}
+	// }, [id]);
 
     function handleChange(evt) {
 
@@ -43,35 +63,67 @@ function AgentForm() {
     // TODO: Modify this function to support update as well as add/create.
     function handleSubmit(evt) {
         evt.preventDefault();
+        if (id > 0) {
+            // PUT
+            const config = {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(agent),
+			};
+			fetch("http://localhost:8080/api/agent/" + id, config)
+				.then(res => {
+					if (res.ok) {
+						navigate("/agents");
+					} else if (res.status === 400) {
+						return res.json();
+					}
+				})
+				.then(errs => {
+                    if (errs) {
+                        return Promise.reject(errs);
+                    }
+                })
+                .catch(errs => {
+                    if (errs.length) {
+                        setErrors(errs);
+                    } else {
+                        setErrors([errs]);
+                    }
+                });
 
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(agent)
-        }
-
-        fetch("http://localhost:8080/api/agent", config)
-            .then(response => {
-                if (response.ok) {
-                    navigate('/agents');
-                } else {
-                    return response.json();
-                }
-            })
-            .then(errs => {
-                if (errs) {
-                    return Promise.reject(errs);
-                }
-            })
-            .catch(errs => {
-                if (errs.length) {
-                    setErrors(errs);
-                } else {
-                    setErrors([errs]);
-                }
-            });
+        } else {
+            // POST
+            const config = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(agent)
+            }
+    
+            fetch("http://localhost:8080/api/agent", config)
+                .then(response => {
+                    if (response.ok) {
+                        navigate("/agents");
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(errs => {
+                    if (errs) {
+                        return Promise.reject(errs);
+                    }
+                })
+                .catch(errs => {
+                    if (errs.length) {
+                        setErrors(errs);
+                    } else {
+                        setErrors([errs]);
+                    }
+                });
+        } 
     }
 
     return (
