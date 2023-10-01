@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 
-function AgentTable({ agents }) {
+function AgentTable({ agents, fetchAgents }) {
 
     const [showModal, setShowModal] = useState(false);
     const [id, setId] = useState(null);
@@ -16,13 +16,13 @@ function AgentTable({ agents }) {
         setShowModal(false);
     };
 
-    const triggerReload = () => {
-        // Create a custom event with a unique name
-        const reloadEvent = new CustomEvent('reload-parent');
+    // const triggerReload = () => {
+    //     // Create a custom event with a unique name
+    //     const reloadEvent = new CustomEvent('reload-parent');
     
-        // Dispatch the event
-        window.dispatchEvent(reloadEvent);
-      };
+    //     // Dispatch the event
+    //     window.dispatchEvent(reloadEvent);
+    // };
 
     useEffect(() => {
 		if (id) {
@@ -51,20 +51,20 @@ function AgentTable({ agents }) {
                 .then(res => {
                     if (res.ok) {
                         // success
+                        fetchAgents();
                     } else {
                         // unhappy path
                         return Promise.reject(
                             new Error(`Unexpected status code ${res.status}`)
                         );
                     }
-                })
+                }).then(setId)
                 .catch(error => {
                     console.error(error);
-                });
-            setId(null);
+                });  
         }
         handleCloseModal();
-        triggerReload();
+        // triggerReload();
         return;
     }
 
