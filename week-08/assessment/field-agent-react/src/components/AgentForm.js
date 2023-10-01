@@ -40,16 +40,6 @@ function AgentForm() {
                 }
             }, [id]);
 
-    // useEffect(() => {
-	// 	if (id) {
-	// 		fetch("http://localhost:8080/api/agent/" + id)
-	// 			.then(res => res.json())
-	// 			.then(setAgent);
-	// 	} else {
-	// 		setAgent(INITIAL_AGENT);
-	// 	}
-	// }, [id]);
-
     function handleChange(evt) {
 
         setAgent(previous => {
