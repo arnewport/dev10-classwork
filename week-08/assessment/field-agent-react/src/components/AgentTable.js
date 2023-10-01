@@ -16,14 +16,6 @@ function AgentTable({ agents, fetchAgents }) {
         setShowModal(false);
     };
 
-    // const triggerReload = () => {
-    //     // Create a custom event with a unique name
-    //     const reloadEvent = new CustomEvent('reload-parent');
-    
-    //     // Dispatch the event
-    //     window.dispatchEvent(reloadEvent);
-    // };
-
     useEffect(() => {
 		if (id) {
 			fetch("http://localhost:8080/api/agent/" + id)
@@ -40,7 +32,7 @@ function AgentTable({ agents, fetchAgents }) {
 					console.error(error);
 				});
 		}
-	}, []);
+	}, [id]);
     
     const handleDelete = () => {
         if (id !== null) {
@@ -64,7 +56,6 @@ function AgentTable({ agents, fetchAgents }) {
                 });  
         }
         handleCloseModal();
-        // triggerReload();
         return;
     }
 
@@ -92,7 +83,7 @@ function AgentTable({ agents, fetchAgents }) {
                                 <button className="btn btn-danger me-2" onClick={() => handleDeleteClick(agent.agentId)}>Delete</button>
                                 <Link 
                                 to={`/agents/edit/${agent.agentId}`}
-                                className="btn btn-info">
+                                className="btn btn-primary">
                                     Edit
                                 </Link>
                             </td>

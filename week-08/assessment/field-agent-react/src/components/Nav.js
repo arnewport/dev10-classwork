@@ -13,7 +13,7 @@ function Nav() {
                 </li>
             </ul>
             <div className="d-flex flex-grow-1 justify-content-end">
-                <Link id="btnAdd" to="/agents/add" className="btn btn-primary">Add Agent</Link>
+                <Link id="btnAdd" to="/agents/add" className="btn btn-info">Add Agent</Link>
             </div>
         </div>
     );

@@ -38,7 +38,7 @@ function AgentForm() {
                         navigate("/agents");
                     });
                 }
-            }, [id]);
+            }, [id, navigate]);
 
     function handleChange(evt) {
 
@@ -118,7 +118,7 @@ function AgentForm() {
 
     return (
         <>
-            <h1 className="display-6">Add an Agent</h1>
+            <h1 className="display-6">{id > 0 ? "Edit" : "Add"} an Agent</h1>
             {errors && errors.length > 0 && <div className="alert alert-danger">
                 <ul className="mb-0">
                     {errors.map(err => <li key={err}>{err}</li>)}
@@ -156,7 +156,7 @@ function AgentForm() {
                     </div>
                 </div>
                 <div className="mb-3">
-                    <button type="submit" className="btn btn-primary me-2">Save</button>
+                    <button type="submit" className="btn btn-info me-2">Save</button>
                     <Link className="btn btn-warning" to="/agents">Cancel</Link>
                 </div>
             </form>
