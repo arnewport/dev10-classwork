@@ -19,6 +19,22 @@ function AgentList() {
         fetchAgents();
     }, []);
 
+    useEffect(() => {
+        // Define the event handler
+        const handleReload = () => {
+            // Implement your reload logic here
+            window.location.reload();
+        };
+    
+        // Add an event listener to the window
+        window.addEventListener('reload-parent', handleReload);
+    
+        // Clean up the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('reload-parent', handleReload);
+        };
+      }, []);
+
     return (
         <>
             {agents.length == 0 ?

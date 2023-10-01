@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function AgentDelete() {
-	const [agent, setSolarPanel] = useState(null);
+	const [agent, setAgent] = useState(null);
 	const [success, setSuccess] = useState(false);
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ function AgentDelete() {
 						);
 					}
 				})
-				.then(setSolarPanel)
+				.then(setAgent)
 				.catch(error => {
 					console.error(error);
 					navigate("/agents");
