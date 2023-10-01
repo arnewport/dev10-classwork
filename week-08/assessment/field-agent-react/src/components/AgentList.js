@@ -5,6 +5,7 @@ import AgentTable from "./AgentTable";
 function AgentList() {
 
     const [agents, setAgents] = useState([]);
+    const [loading, setLoading] = useState(true); // Added loading state
 
     useEffect(() => {
         const fetchAgents = async () => {
@@ -14,6 +15,7 @@ function AgentList() {
             } else {
                 setAgents([]);
             }
+            setLoading(false); // Set loading to false when API call is complete
         };
 
         fetchAgents();
@@ -37,12 +39,17 @@ function AgentList() {
 
     return (
         <>
-            {agents.length == 0 ?
+            {loading ? ( // Display a loading indicator while loading
+                <div>
+                </div>
+            ) : agents.length === 0 ? (
                 <div className="alert alert-warning py-4">
                     No agents found.<br />
                     Do you want to add an agent?
                 </div>
-                : <AgentTable agents={agents} />}
+            ) : (
+                <AgentTable agents={agents} />
+            )}
         </>
     );
 }
