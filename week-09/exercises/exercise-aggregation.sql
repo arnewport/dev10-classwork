@@ -13,6 +13,9 @@ where city = 'Toronto';
 
 -- How many employees have the last_name 'Soyle'?
 -- Expected: 12
+select count(*)
+from customer
+where last_name = 'Soyle';
 
 -- How many projects are there in the database?
 -- Expected: 1121
