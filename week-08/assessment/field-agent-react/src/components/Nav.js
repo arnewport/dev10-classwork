@@ -1,28 +1,20 @@
-function Nav({ view, setView }) {
+import { Link, NavLink } from "react-router-dom";
 
-    function handleAdd() {
-        setView("form");
-    }
-
-    function handleList(evt) {
-        evt.preventDefault();
-        setView("list");
-    }
+function Nav() {
 
     return (
         <div className="d-flex align-items-center">
             <ul className="nav my-4">
                 <li className="nav-item">
-                    <a id="linkAgents" href="#" className="nav-link" onClick={handleList}>Agents</a>
+                    <NavLink id="linkAgents" to="/agents" className="nav-link">Agents</NavLink>
                 </li>
                 <li className="nav-item">
-                    <a id="linkAgencies" href="#" className="nav-link" onClick={evt => evt.preventDefault()}>Agencies</a>
+                    <NavLink id="linkAgencies" to="/agencies" className="nav-link">Agencies</NavLink>
                 </li>
             </ul>
-            {view !== "form" &&
-                <div className="d-flex flex-grow-1 justify-content-end">
-                    <button id="btnAdd" className="btn btn-primary" onClick={handleAdd}>Add Agent</button>
-                </div>}
+            <div className="d-flex flex-grow-1 justify-content-end">
+                <Link id="btnAdd" to="/agents/add" className="btn btn-info">Add Agent</Link>
+            </div>
         </div>
     );
 }

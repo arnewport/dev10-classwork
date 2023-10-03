@@ -1,19 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // TODO: Modify this component to support update/edit.
 // An update URL should have an agent id.
 // Use that id to fetch a single agent and populate it in the form.
 
-function AgentForm({ setView }) {
+const INITIAL_AGENT = {
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dob: "",
+    heightInInches: ""
+}
 
-    const [agent, setAgent] = useState({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        dob: "",
-        heightInInches: ""
-    });
+function AgentForm() {
+
+    const [agent, setAgent] = useState(INITIAL_AGENT);
     const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
+	const { id } = useParams();
+
+    useEffect(() => {
+		if (id) {
+			fetch("http://localhost:8080/api/agent/" + id)
+				.then(res => {
+                   if (res.ok) {
+                    return res.json();
+                   }  else {
+                    return Promise.reject(
+                        new Error(`Unexpected status code ${res.status}`)
+                    );
+                   }
+                })
+				.then(setAgent).catch(
+                    error => {
+                        console.error(error);
+                        navigate("/agents");
+                    });
+                }
+            }, [id, navigate]);
 
     function handleChange(evt) {
 
@@ -28,44 +53,72 @@ function AgentForm({ setView }) {
     // TODO: Modify this function to support update as well as add/create.
     function handleSubmit(evt) {
         evt.preventDefault();
+        if (id > 0) {
+            // PUT
+            const config = {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(agent),
+			};
+			fetch("http://localhost:8080/api/agent/" + id, config)
+				.then(res => {
+					if (res.ok) {
+						navigate("/agents");
+					} else if (res.status === 400) {
+						return res.json();
+					}
+				})
+				.then(errs => {
+                    if (errs) {
+                        return Promise.reject(errs);
+                    }
+                })
+                .catch(errs => {
+                    if (errs.length) {
+                        setErrors(errs);
+                    } else {
+                        setErrors([errs]);
+                    }
+                });
 
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(agent)
-        }
-
-        fetch("http://localhost:8080/api/agent", config)
-            .then(response => {
-                if (response.ok) {
-                    setView("list");
-                } else {
-                    return response.json();
-                }
-            })
-            .then(errs => {
-                if (errs) {
-                    return Promise.reject(errs);
-                }
-            })
-            .catch(errs => {
-                if (errs.length) {
-                    setErrors(errs);
-                } else {
-                    setErrors([errs]);
-                }
-            });
-    }
-
-    function handleCancel() {
-        setView("list");
+        } else {
+            // POST
+            const config = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(agent)
+            }
+    
+            fetch("http://localhost:8080/api/agent", config)
+                .then(response => {
+                    if (response.ok) {
+                        navigate("/agents");
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(errs => {
+                    if (errs) {
+                        return Promise.reject(errs);
+                    }
+                })
+                .catch(errs => {
+                    if (errs.length) {
+                        setErrors(errs);
+                    } else {
+                        setErrors([errs]);
+                    }
+                });
+        } 
     }
 
     return (
         <>
-            <h1 className="display-6">Add an Agent</h1>
+            <h1 className="display-6">{id > 0 ? "Edit" : "Add"} an Agent</h1>
             {errors && errors.length > 0 && <div className="alert alert-danger">
                 <ul className="mb-0">
                     {errors.map(err => <li key={err}>{err}</li>)}
@@ -103,9 +156,8 @@ function AgentForm({ setView }) {
                     </div>
                 </div>
                 <div className="mb-3">
-                    <button type="submit" className="btn btn-primary me-2">Save</button>
-                    {/* TODO: Change this button to a React Router Link. */}
-                    <button type="button" className="btn btn-warning" onClick={handleCancel}>Cancel</button>
+                    <button type="submit" className="btn btn-info me-2">Save</button>
+                    <Link className="btn btn-warning" to="/agents">Cancel</Link>
                 </div>
             </form>
         </>

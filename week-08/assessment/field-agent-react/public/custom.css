@@ -1,0 +1,8 @@
+.nav-link, .nav-link:active, .nav-link:focus, .nav-link:visited  {
+    color: #f80;
+}
+
+.nav-link:hover {
+    color: #d97400;
+}
+
